@@ -2,6 +2,8 @@ import { exec } from 'child_process';
 import { fetchPulls } from './fetch-pulls.js';
 import args from './args.js';
 
+import visualize from './visualizer.js';
+
 let directImpactsRegex = />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm;
 let sideImpactsRegex = />>> SIDE IMPACT.*$\n(.*\n)*?>>> END/gm;
 let masterShaRegex = />>> MASTER BRANCH SHA \[(.+)\]$/m;
@@ -13,18 +15,18 @@ let mergeOrder = [];
 
 let optionalCommands = '';
 const projectFolder = `cd ${args.project}`;
-const runScript = '/Users/developer/Documents/GitHub/conflictor/conflicts.sh';
+const runScript = '/Users/developer/Documents/GitHub/conflictor/Conflictor/conflicts.sh';
 
 if (args.base) {
   optionalCommands += `export CONFLICTOR_MASTER_SHA=${args.base}`;
   optionalCommands += ' &&';
 }
 
-//const pullsData = await fetchPulls();
-//const shaList = pullsData.map(p => p.sha);
-//const titlesList = pullsData.map(p => p.title);
+const pullsData = await fetchPulls();
+const shaList = pullsData.map(p => p.sha);
+const titlesList = pullsData.map(p => p.title);
 
-const shaList = [
+/*const shaList = [
   '3a1c897b27362f1b3edc823f322bd7965069aed7',
   '0035762b7c6d660e85d6ec0c08fc2a12d4758233',
   '820f5a424888bcaaf64fdc852796ca0b907a6eec',
@@ -1506,7 +1508,7 @@ proxy16/node/rpc.js
 ------------------------------------
 >>> SIDE IMPACT INSPECTION [6:7] - START
 >>> END
-`;
+`;*/
 
 /*const shaList = [
   "5a67bed469062e4e4249c0985c31f83da6e41432",
@@ -1802,7 +1804,7 @@ proxy16/node/rpc.js
 >>> END
 `;*/
 
-//exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, (error, stdout, stderr) => {
+exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, (error, stdout, stderr) => {
   shaList.push(stdout.match(masterShaRegex)[1]);
   titlesList.push('master');
 
@@ -1929,8 +1931,7 @@ proxy16/node/rpc.js
 
   const sortByConflictLevel = ((b, a) => (a.conflictLevel > b.conflictLevel) ? -1 : 1);
 
-  console.log('----- PULL REQUESTS MERGE ORDER ------');
-  console.log(mergeOrder.sort(sortByConflictLevel)
+  const mergeOrderProcessed = mergeOrder.sort(sortByConflictLevel)
     .map((m) => {
       let comments = '';
 
@@ -1948,8 +1949,15 @@ proxy16/node/rpc.js
       }
 
       m.comments = comments;
+      m.pullNumber = pullsData.find(p => p.sha === m.sha).pullNumber;
 
-      return JSON.stringify(m, null, 2)
-    }).join('\n'));
-//});
-let a =100;
+      return m;
+    });
+
+  console.log('----- PULL REQUESTS MERGE ORDER ------');
+  console.log(JSON.stringify(mergeOrderProcessed, null, 2));
+
+  visualize(mergeOrderProcessed);
+
+  console.log('End of process');
+});

@@ -4,6 +4,8 @@
 
 pulls=("$@")
 
+git fetch --all > /dev/null 2>&1
+
 if [ -z "$CONFLICTOR_MASTER_SHA" ]; then
   masterSha="$(git rev-parse origin/master)"
 else
@@ -45,7 +47,7 @@ for i in "${!pulls[@]}"; do
     fi
 
     # echo "CONFLICTS BETWEEN PULL REQUEST $i AND $j"
-    echo "------------------------------------"
+    # echo "------------------------------------"
     # echo "CONFLICTS GROUP [$i:$j]"
 
     git merge --no-commit ${pulls[$i]} ${pulls[$j]} > /dev/null 2>&1

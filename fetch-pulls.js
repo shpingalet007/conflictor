@@ -70,6 +70,7 @@ export async function fetchPulls() {
 
   for (let i = 0; i < labeledPulls.length - 1; i++) {
     mergeCommits.push({
+      pullNumber: labeledPulls[i].number,
       title: labeledPulls[i].title,
       sha: await fetchPullMergeCommit(labeledPulls[i]),
     });
