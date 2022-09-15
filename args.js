@@ -6,6 +6,16 @@ const argv = yargs(process.argv)
     demandOption: true,
     type: 'string',
   })
+  .option('repo', {
+    describe: 'Repository name',
+    demandOption: true,
+    type: 'string',
+  })
+  .option('marker', {
+    demandOption: true,
+    description: 'Deploy label',
+    type: 'string',
+  })
   .option('base', {
     alias: 'b',
     description: 'Provide manually which base is used',

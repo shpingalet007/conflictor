@@ -35,7 +35,7 @@ for i in "${!pulls[@]}"; do
   # echo "------------------------------------"
 
   echo ">>> DIRECT IMPACT INSPECTION [$i] - START"
-  git --no-pager log --raw --first-parent --oneline --no-merges origin/master..HEAD | grep '^:' | cut -c38-
+  git --no-pager log --raw --first-parent --oneline --no-merges origin/master..HEAD | grep '^:' | cut -f2-
   echo ">>> END"
 
   # git --no-pager log --raw --oneline --no-merges origin/master..HEAD | grep '^:' | cut -c38-

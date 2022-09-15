@@ -38,10 +38,11 @@ function httpRequest(params) {
   });
 }
 
-async function fetchPullsByLabel(label) {
+async function fetchPullsByLabel(repo, label) {
   const q = {
-    repo: 'pocketnetteam/pocketnet.gui',
-    label,
+    repo: repo,
+    is: 'pr',
+    label: `"${label.replaceAll(/\s/g, '+')}"`,
   };
 
   const qString = Object.keys(q)
@@ -50,7 +51,7 @@ async function fetchPullsByLabel(label) {
 
   const pulls = await httpRequest({
     path: '/search/issues',
-    query: `q=${qString}`,
+    query: `q=${encodeURI(qString)}+is:open`,
   });
 
   return pulls.items;
@@ -63,12 +64,12 @@ async function fetchPullMergeCommit(pull) {
   return pullData.head.sha;
 }
 
-export async function fetchPulls() {
-  const labeledPulls = await fetchPullsByLabel('deploy.dev');
+export async function fetchPulls(repo, label) {
+  const labeledPulls = await fetchPullsByLabel(repo, label);
 
   const mergeCommits = [];
 
-  for (let i = 0; i < labeledPulls.length - 1; i++) {
+  for (let i = 0; i < labeledPulls.length; i++) {
     mergeCommits.push({
       pullNumber: labeledPulls[i].number,
       title: labeledPulls[i].title,

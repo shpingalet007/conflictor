@@ -22,7 +22,7 @@ if (args.base) {
   optionalCommands += ' &&';
 }
 
-const pullsData = await fetchPulls();
+const pullsData = await fetchPulls(args.repo, args.marker);
 const shaList = pullsData.map(p => p.sha);
 const titlesList = pullsData.map(p => p.title);
 
