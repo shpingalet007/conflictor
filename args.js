@@ -2,17 +2,17 @@ import yargs from 'yargs';
 
 const argv = yargs(process.argv)
   .option('project', {
+    alias: 'p',
     describe: 'Provide GIT project path',
-    demandOption: true,
     type: 'string',
   })
   .option('repo', {
+    alias: 'r',
     describe: 'Repository name',
-    demandOption: true,
     type: 'string',
   })
   .option('marker', {
-    demandOption: true,
+    alias: 'm',
     description: 'Deploy label',
     type: 'string',
   })
@@ -28,6 +28,7 @@ const argv = yargs(process.argv)
     describe: '[merge_commit_1, merge_commit_2, ..., merge_commit_N]',
     type: 'string',
   })
+  .demandOption(['project', 'repo', 'marker'])
   .help()
   .version()
   .alias('help', 'h').argv;
