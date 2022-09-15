@@ -3,6 +3,9 @@
   "version": "0.0.3",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "conflictor": "./bin/conflictor.js"
+  },
   "type": "module",
   "scripts": {
     "start": "node index.js --project /Users/developer/Documents/GitHub/official-pocketnet.gui"
