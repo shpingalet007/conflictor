@@ -1,6 +1,5 @@
-import fs from 'fs';
-import { graphviz } from 'node-graphviz';
-import * as path from "path";
+import {graphviz} from "node-graphviz";
+import fs from "fs";
 
 function getAlphabet() {
   const alpha = Array.from(Array(26)).map((e, i) => i + 65);
@@ -9,233 +8,148 @@ function getAlphabet() {
   return alphabet;
 }
 
-// Define a graph using DOT notation
-const graph = `
-  digraph L {
-    node [shape=record fontname=Arial];
-  
-    master [label="MASTER\\l"]
-    a [label="fix: chat\\l#100\\l" style="filled" fillcolor="green"]
-    b [label="feat: separate bloggers for English and Russian sections\\l#200\\l" style="filled" fillcolor="green"]
-    c [label="feat: brighteon integration for video links\\l#300\\l" style="filled" fillcolor="orange"]
-    d [label="feat: pkoin buttons\\l#400\\l" style="filled" fillcolor="orange"]
-    e [label="feat: setting comment order\\l#500\\l" style="filled" fillcolor="orange"]
-    f [label="feat: multy blocking\\l#600\\l" style="filled" fillcolor="orange"]
-    g [label="fix: hide pocketcoin info for IOS\\l#700\\l" style="filled" fillcolor="red"]
-  
-    { rank=same; c, d, e }
-  
-    master -> a -> b
-                   b -> c
-                   b -> d
-                   b -> e
-    
-    master -> f
-  }
-`;
+export default function(pullsData) {
+  const ab = getAlphabet();
 
-const alphabet = getAlphabet();
+  const nodes = pullsData.map((pull) => {
+    const nodeData = {};
 
-export default function (branchesData) {
-  let deepMap = [];
-  let lastUsed = 0;
+    nodeData.node = pull.pullNumber;
+    nodeData.label = pull.title;
+    nodeData.path = [];
+    nodeData.impacts = pull.concurrency?.map((concurrency) => {
+      return pullsData.find(pull => pull.sha === concurrency.sha).pullNumber;
+    }) || [];
 
-  let dotGraph = '';
-  dotGraph += 'digraph L {\n';
-  dotGraph += 'node [shape=record fontname=Arial];\n';
-  dotGraph += 'master [label="MASTER\\l"]\n';
+    return nodeData;
+  });
+  nodes.push({node: 'master', label: 'master', impacts: [], path: [], base: true});
 
-  let nodesMap = '';
+  /*const nodes = [
+    {node: 'master', label: 'master', impacts: [], path: [], base: true},
+    {node: 'f', label: 'f', impacts: ['i'], path: []},
+    {node: 'b', label: 'b', impacts: [], path: []},
+    {node: 'd', label: 'd', impacts: [], path: []},
+    {node: 'c', label: 'c', impacts: [], path: []},
+    {node: 'e', label: 'e', impacts: ['a', 'aa'], path: []},
+    {node: 'a', label: 'a', impacts: [], path: []},
+    {node: 'aa', label: 'aa', impacts: [], path: []},
+    {node: 'i', label: 'i', impacts: ['f', 'g', 'h'], path: []},
+    {node: 'g', label: 'g', impacts: ['i'], path: []},
+    {node: 'h', label: 'h', impacts: ['i'], path: []},
+  ];*/
 
-  const getLabel = () => alphabet[lastUsed++];
-  const createNode = (label, title, pullNum, color) => {
-    console.log('Created node', label);
+  let levels = [nodes.filter(n => !!n.base)];
 
-    let pullMarker = '';
+  const clearNodes = nodes.filter(n => {
+    const isBase = (!!n.base);
+    const isImpacting = (n.impacts.length);
+    const isAffected = nodes.some((ni) => (
+      ni.impacts.some((nil) => (nil === n.label))
+    ));
 
-    if (pullNum !== 'no_pull') {
-      pullMarker = `#${pullNum}\\l`;
-    }
-
-    return `${label} [label="${title}\\l${pullMarker}" style="filled" fillcolor="${color}"]\n`;
-  };
-  const mapNode = (label, relations) => {
-    console.log('Node', label, 'connected with', relations.join(', '));
-
-    let paths = '';
-
-    relations.forEach((r) => {
-      paths += `${label} -> ${r}\n`;
-    });
-
-    return paths;
-  };
-
-  let currentNode = { label: 'master', sha: 'f3b42c229b9e7d86d39f2ed48d3bd369bd181c95' };
-  console.log('Set active node to', currentNode.label);
-  deepMap[1] = [currentNode];
-
-  dotGraph += createNode('master', currentNode.label, 'no_pull', 'white');
-
-  branchesData.forEach((branch) => {
-    if (!branch.conflictLevel) {
-      const label = getLabel();
-      console.log('Set active node to', label);
-      deepMap[1] = [{ label, sha: branch.sha, chain: [currentNode] }];
-      dotGraph += createNode(label, branch.title, branch.pullNumber, 'white');
-      nodesMap += mapNode(currentNode.label, [label]);
-      currentNode = deepMap[1][0];
-      return;
-    }
-
-    for (let i = deepMap.length - 1; i >= 0; i--) {
-      if (i === 0) {
-        const label = getLabel();
-        console.log('Set active node to', label);
-        deepMap.push([{ label, sha: branch.sha, chain: [] }]);
-
-        const isMasterConflict = branch.concurrency.some(b => b.label === 'master');
-
-        let color = 'white';
-
-        if (isMasterConflict) {
-          color = 'red';
-        }
-
-        dotGraph += createNode(label, branch.title, branch.pullNumber, 'red');
-        return;
-      }
-
-      const potentialParents = deepMap[i];
-
-      let mapped = false;
-
-      for (let j = 0; j < potentialParents.length; j++) {
-        const parent = potentialParents[j];
-        const parentConcurrency = branchesData.find(b => b.sha === parent.sha).concurrency || [];
-        const childConcurrency = branchesData.find(b => b.sha === branch.sha).concurrency || [];
-
-        const parentConflicts = parentConcurrency.some(b => b.sha === branch.sha);
-        const parentChainConflicts = parent.chain.some((node) => {
-          for (let i = 0; i < childConcurrency.length; i++) {
-            if (childConcurrency[i].sha === node.sha) {
-              return true;
-            }
-          }
-        });
-        const childConflicts = childConcurrency.some(b => b.sha === parent.sha);
-        const isMasterConflict = childConcurrency.some(b => b.title === 'master');
-
-        let color = 'white';
-
-        if (isMasterConflict) {
-          color = 'red';
-        } else if (parentConflicts || childConflicts) {
-          color = 'orange';
-        }
-
-        if (parentChainConflicts) {
-          break;
-        }
-
-        if (!parentConflicts || !childConflicts) {
-          const label = getLabel();
-          console.log('Set active node to', label);
-          deepMap.push([{ label, sha: branch.sha, chain: [...parent.chain, parent] }]);
-          dotGraph += createNode(label, branch.title, branch.pullNumber, color);
-          nodesMap += mapNode(parent.label, [label]);
-
-          mapped = true;
-          break;
-        }
-      }
-
-      if (mapped) {
-        break;
-      }
-    }
+    return !isImpacting && !isBase && !isAffected;
   });
 
-  nodesMap += '}';
+  const clearNodesDeclarations = clearNodes.map(n => `${n.node} [ label="${n.label}" style="filled" fillcolor="green" ]`).join('\n');
+  const clearNodesMappings = clearNodes.map(n => {
+    const mapBase = levels[0][0];
 
-  /*const zeroConflicted = branchesData
-    .filter(b => (!b.conflictLevel))
-    .map((b) => {
-      dotGraph += createNode(alphabet[lastUsed], b.title, 'UNDEFINED', 'red');
-      return {
-        label: alphabet[lastUsed++],
-        sha: b.sha,
-      };
-    });
+    n.path = [...mapBase.path, mapBase.label];
 
-  const conflicted = branchesData
-    .filter(b => b.conflictLevel)
-    .map((b) => {
-      dotGraph += createNode(alphabet[lastUsed], b.title, 'UNDEFINED', 'red');
-      return {
-        label: alphabet[lastUsed++],
-        sha: b.sha,
-        concurrency: b.concurrency,
-      };
-    });
+    // levels.pop();
+    // levels.push([n]);
 
-  nodesMap += mapNode(currentNode.label, zeroConflicted.map(n => n.label));
-  deepMap[2] = zeroConflicted;
+    levels.pop()
+    levels.push([n]);
+    return `${mapBase.node} -> ${n.node}`;
+  }).join('\n');
 
-  deepMap[2].forEach((b1) => {
-    conflicted.forEach((b2) => {
-      const isConflictingWithTarget = b2.concurrency.some(c => (c.sha === b1.sha));
+  const affectedNodes = nodes.filter(n => {
+    const isBase = (!!n.base);
+    const isImpacting = (n.impacts.length);
+    const isAffected = nodes.some((ni) => (
+      ni.impacts.some((nil) => (nil === n.label))
+    ));
 
-      if (!isConflictingWithTarget) {
-        nodesMap += mapNode(b1.label, [b2.label]);
+    return !isImpacting && !isBase && isAffected;
+  });
+
+  const affectedNodesDeclarations = affectedNodes.map(n => `${n.node} [ label="${n.label}" style="filled" color="red" fillcolor="green" ]`).join('\n');
+  const affectedNodesMappings = affectedNodes.map(n => {
+    const mapBase = levels.at(-1)[0];
+
+    n.path = [...mapBase.path, mapBase.label];
+
+    // levels.push([n]);
+
+    levels.push([n]);
+    return `${mapBase.node} -> ${n.node}`;
+  }).join('\n');
+
+  const impactingNodes = nodes.filter(n => {
+    const isBase = (!!n.base);
+    const isImpacting = (n.impacts.length);
+
+    return !isBase && isImpacting;
+  });
+
+  const impactingNodesDeclarations = impactingNodes.map(n => `${n.node} [ label="${n.label}" style="filled" fillcolor="red" ]`).join('\n');
+  const impactingNodesMappings = impactingNodes.map(n => {
+    let isMapped = false;
+    let mappings = [];
+
+    for (let i = levels.length - 1; i >= 0; i--) {
+      for (let j = 0; j < levels[i].length; j++) {
+        const mapBase = levels[i][j];
+
+        const isBaseConflicting = mapBase.impacts.some(i => i === n.node);
+        const isNodeConflicting = n.impacts.some(i => i === mapBase.node);
+        const areBaseParentsConflicting = mapBase.path.some(i1 => {
+          return n.impacts.some(i2 => i2 === i1);
+        });
+
+        if (!isBaseConflicting && !areBaseParentsConflicting && !isNodeConflicting) {
+          n.path = [...mapBase.path, mapBase.label];
+
+          if (i < levels.length - 1) {
+            levels[i + 1].push(n);
+
+            const fNodes = nodes.filter((n, i) => {
+              const nParent = n.path.at(-1);
+
+              if (nParent === 'f') {
+                return true;
+              }
+            });
+          } else {
+            levels.push([n]);
+          }
+
+          mappings.push(`${mapBase.node} -> ${n.node}`);
+          isMapped = true;
+        }
       }
-    });
-  });*/
 
-
-  /*branchesData.forEach((b) => {
-    const levelNodes = [b.sha];
-
-    if (b.concurrency) {
-      levelNodes.push(b.concurrency.map(c => c.sha));
+      if (isMapped) {
+        return mappings.join('\n');
+      }
     }
+  }).join('\n');
 
-    levelNodes.forEach(() => {
-      const label = alphabet[lastUsed++];
+  const graph = `digraph L {
+  node [shape=record fontname=Arial penwidth=3 width=5 height=1 fontsize=16 style=filled fillcolor=white];
 
-      dotGraph += createNode(label, b.sha, 100, 'green');
-      nodesMap += mapNode(currentNode, [label]);
+  ${clearNodesDeclarations}
+  ${affectedNodesDeclarations}
+  ${impactingNodesDeclarations}
+  
+  ${clearNodesMappings}
+  ${affectedNodesMappings}
+  ${impactingNodesMappings}
+}`;
 
-      console.log(111);
-    });
-
-
-  });*/
-
-
-
-
-
-  /*const zeroConflicted = branchesData
-    .filter(b => (!b.conflictLevel))
-    .map((b) => {
-      dotGraph += createNode(alphabet[lastUsed], b.title, 'NNN', 'red');
-      return alphabet[lastUsed++];
-    });
-
-  nodesMap += mapNode('master', zeroConflicted);
-
-  const zeroConflicted = branchesData
-    .filter(b => (b.conflictLevel))
-    .map((b) => {
-      dotGraph += createNode(alphabet[lastUsed], b.title, 'NNN', 'red');
-      return alphabet[lastUsed++];
-    });
-
-  nodesMap += '}';*/
-
-  // Compile the graph to SVG using the `dot` layout algorithm
-  graphviz.layout(dotGraph + nodesMap, 'svg').then((svg) => {
+  graphviz.layout(graph, 'svg').then((svg) => {
     // Write the SVG to file
     fs.writeFileSync('graph.svg', svg);
   });
