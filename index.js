@@ -18,8 +18,11 @@ const projectFolder = `cd ${args.project}`;
 const runScript = '/Users/developer/Documents/GitHub/conflictor/Conflictor/conflicts.sh';
 
 if (args.base) {
-  optionalCommands += `export CONFLICTOR_MASTER_SHA=${args.base}`;
-  optionalCommands += ' &&';
+  optionalCommands += `export CONFLICTOR_MASTER_SHA=${args.base} &&`;
+}
+
+if (args.mainBranch) {
+  optionalCommands += `export CONFLICTOR_MAIN_BRANCH=${args.mainBranch} &&`
 }
 
 const pullsData = await fetchPulls(args.repo, args.marker);

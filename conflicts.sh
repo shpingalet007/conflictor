@@ -7,7 +7,7 @@ pulls=("$@")
 git fetch --all > /dev/null 2>&1
 
 if [ -z "$CONFLICTOR_MASTER_SHA" ]; then
-  masterSha="$(git rev-parse origin/master)"
+  masterSha="$(git rev-parse origin/$CONFLICTOR_MAIN_BRANCH)"
 else
   masterSha=$CONFLICTOR_MASTER_SHA
 fi
@@ -35,10 +35,10 @@ for i in "${!pulls[@]}"; do
   # echo "------------------------------------"
 
   echo ">>> DIRECT IMPACT INSPECTION [$i] - START"
-  git --no-pager log --raw --first-parent --oneline --no-merges origin/master..HEAD | grep '^:' | cut -f2-
+  git --no-pager log --raw --first-parent --oneline --no-merges origin/$CONFLICTOR_MAIN_BRANCH..HEAD | grep '^:' | cut -f2-
   echo ">>> END"
 
-  # git --no-pager log --raw --oneline --no-merges origin/master..HEAD | grep '^:' | cut -c38-
+  # git --no-pager log --raw --oneline --no-merges origin/$CONFLICTOR_MAIN_BRANCH..HEAD | grep '^:' | cut -c38-
 
   for j in "${!pulls[@]}"; do
     if [[ $j -le $i ]]
@@ -59,6 +59,6 @@ for i in "${!pulls[@]}"; do
     git reset --hard HEAD~1 > /dev/null 2>&1
     git clean -xxdf > /dev/null 2>&1
 
-    git checkout origin/master > /dev/null 2>&1
+    git checkout origin/$CONFLICTOR_MAIN_BRANCH > /dev/null 2>&1
   done
 done

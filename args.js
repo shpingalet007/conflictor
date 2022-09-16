@@ -17,6 +17,12 @@ const argv = yargs(process.argv)
     description: 'Deploy label',
     type: 'string',
   })
+  .option('mainBranch', {
+    alias: 'mb',
+    description: 'Provide main repository branch',
+    default: 'main',
+    type: 'string',
+  })
   .option('base', {
     alias: 'b',
     description: 'Provide manually which base is used',
