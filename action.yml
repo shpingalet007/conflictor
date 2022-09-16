@@ -19,4 +19,5 @@ runs:
   image: 'dockerfile'
   env:
     REPOSITORY_FULL_NAME: ${{ inputs.repository }}
-    # PULL_REQUEST_LABEL_CONFLICT: ${{ inputs.label-conflict }}
+    PR_DEPLOY_LABEL: ${{ inputs.deploy-label }}
+    MAIN_BRANCH_NAME: ${{ inputs.main-branch }}
