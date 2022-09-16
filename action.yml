@@ -1,0 +1,11 @@
+name: 'Conflictor'
+description: 'Utility that analyzes pull requests and conflicts between them'
+branding:
+  icon: git-pull-request
+  color: yellow
+runs:
+  using: 'docker'
+  image: 'dockerfile'
+  env:
+    REPOSITORY_FULL_NAME: ${{ github.event.repository.full_name }}
+    # PULL_REQUEST_LABEL_CONFLICT: ${{ inputs.label-conflict }}
