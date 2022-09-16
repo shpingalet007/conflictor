@@ -10,6 +10,10 @@ inputs:
   deploy-label:
     description: 'Deploy label'
     required: true
+  main-branch:
+    description: 'Repository main branch name'
+    default: 'main'
+    required: false
 runs:
   using: 'docker'
   image: 'dockerfile'
