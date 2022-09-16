@@ -28,6 +28,11 @@ const argv = yargs(process.argv)
     describe: '[merge_commit_1, merge_commit_2, ..., merge_commit_N]',
     type: 'string',
   })
+  .option('graph', {
+    alias: 'g',
+    description: 'Output merge variants graph (PNG image)',
+    type: 'boolean',
+  })
   .demandOption(['project', 'repo', 'marker'])
   .help()
   .version()

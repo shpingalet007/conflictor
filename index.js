@@ -1931,7 +1931,7 @@ exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`,
 
   const sortByConflictLevel = ((b, a) => (a.conflictLevel > b.conflictLevel) ? -1 : 1);
 
-  const mergeOrderProcessed = mergeOrder.sort(sortByConflictLevel)
+  const pullStats = mergeOrder.sort(sortByConflictLevel)
     .map((m) => {
       let comments = '';
 
@@ -1954,10 +1954,10 @@ exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`,
       return m;
     });
 
-  console.log('----- PULL REQUESTS MERGE ORDER ------');
-  console.log(JSON.stringify(mergeOrderProcessed, null, 2));
+  console.log('----- PULL REQUESTS STATS ------');
+  console.log(JSON.stringify(pullStats, null, 2));
 
-  visualize(mergeOrderProcessed);
-
-  console.log('End of process');
+  if (args.graph) {
+    visualize(pullStats);
+  }
 });
