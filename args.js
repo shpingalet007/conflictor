@@ -4,6 +4,7 @@ const argv = yargs(process.argv)
   .option('project', {
     alias: 'p',
     describe: 'Provide GIT project path',
+    default: '.',
     type: 'string',
   })
   .option('repo', {
@@ -33,7 +34,7 @@ const argv = yargs(process.argv)
     description: 'Output merge variants graph (PNG image)',
     type: 'boolean',
   })
-  .demandOption(['project', 'repo', 'marker'])
+  .demandOption(['repo', 'marker'])
   .help()
   .version()
   .alias('help', 'h').argv;
