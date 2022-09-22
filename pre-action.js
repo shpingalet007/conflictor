@@ -1,3 +1,2 @@
-import { exec } from "child_process";
-
-exec('npm install');
+const { npmInstallAction } = require('npm-install');
+await npmInstallAction();
