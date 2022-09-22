@@ -1,5 +1,7 @@
 #!/bin/sh -l
 
+cd conflictor
+
 echo "Hello world!"
 echo "${REPOSITORY_FULL_NAME}"
 echo "${PR_DEPLOY_LABEL}"
