@@ -3,6 +3,7 @@ FROM alpine:3.10
 WORKDIR conflictor
 
 COPY entrypoint.sh /entrypoint.sh
+COPY index.js /index.js
 
 RUN ls
 
