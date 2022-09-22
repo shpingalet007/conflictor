@@ -1,2 +1,2 @@
-import { npmInstallAction } from 'npm-install';
-await npmInstallAction();
+import { default as ni } from 'npm-install';
+await ni.npmInstallAction();
