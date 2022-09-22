@@ -8,7 +8,7 @@ function getAlphabet() {
   return alphabet;
 }
 
-export default function(pullsData) {
+export default function(pullsData, mainBranchSha) {
   const ab = getAlphabet();
 
   const nodes = pullsData.map((pull) => {
@@ -18,12 +18,12 @@ export default function(pullsData) {
     nodeData.label = pull.title;
     nodeData.path = [];
     nodeData.impacts = pull.concurrency?.map((concurrency) => {
-      return pullsData.find(pull => pull.sha === concurrency.sha).pullNumber;
+      return pullsData.find(pull => pull.sha === concurrency.sha || concurrency.sha === mainBranchSha).pullNumber;
     }) || [];
 
     return nodeData;
   });
-  nodes.push({node: 'master', label: 'master', impacts: [], path: [], base: true});
+  nodes.push({node: 'base', label: 'base', impacts: [], path: [], base: true});
 
   /*const nodes = [
     {node: 'master', label: 'master', impacts: [], path: [], base: true},

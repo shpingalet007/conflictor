@@ -1,6 +1,6 @@
 {
   "name": "conflictor",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Utility that analyzes pull requests and conflicts between them",
   "main": "index.js",
   "bin": {

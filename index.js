@@ -1808,8 +1808,10 @@ proxy16/node/rpc.js
 `;*/
 
 exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, (error, stdout, stderr) => {
-  shaList.push(stdout.match(masterShaRegex)[1]);
-  titlesList.push('master');
+  const mainBranchSha = stdout.match(masterShaRegex)[1];
+
+  shaList.push(mainBranchSha);
+  titlesList.push(args.mainBranch);
 
   stdout.match(directImpactsRegex).forEach((pull) => {
     const pulls = pull.split('\n');
@@ -1961,6 +1963,6 @@ exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`,
   console.log(JSON.stringify(pullStats, null, 2));
 
   if (args.graph) {
-    visualize(pullStats);
+    visualize(pullStats, mainBranchSha);
   }
 });
