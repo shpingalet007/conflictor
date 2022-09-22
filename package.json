@@ -15,6 +15,7 @@
   "dependencies": {
     "@actions/core": "^1.9.1",
     "node-graphviz": "^0.1.0",
+    "npm-install": "^1.8.22",
     "yargs": "^17.5.1"
   },
   "devDependencies": {
