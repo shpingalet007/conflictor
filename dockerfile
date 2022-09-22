@@ -1,5 +1,7 @@
 FROM alpine:3.10
 
+WORKDIR conflictor
+
 COPY . .
 
 # COPY entrypoint.sh /entrypoint.sh
