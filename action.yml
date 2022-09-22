@@ -4,6 +4,9 @@ branding:
   icon: git-pull-request
   color: yellow
 inputs:
+  isActions:
+    description: 'Just informing conflictor that this call came from Github Actions'
+    default: 'true'
   repository:
     description: 'Repository full name'
     required: true
@@ -15,9 +18,5 @@ inputs:
     default: 'main'
     required: false
 runs:
-  using: 'docker'
-  image: 'dockerfile'
-  env:
-    REPOSITORY_FULL_NAME: ${{ inputs.repository }}
-    PR_DEPLOY_LABEL: ${{ inputs.deploy-label }}
-    MAIN_BRANCH_NAME: ${{ inputs.main-branch }}
+  using: 'node16'
+  main: 'bin/conflictor.js'
