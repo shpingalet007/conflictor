@@ -19,4 +19,5 @@ inputs:
     required: false
 runs:
   using: 'node16'
+  pre: 'exec("npm install")'
   main: 'entrypoint.js'
