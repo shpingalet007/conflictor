@@ -2,7 +2,7 @@ FROM alpine:3.10
 
 WORKDIR conflictor
 
-COPY . .
+COPY entrypoint.sh /entrypoint.sh
 
 RUN ls
 
@@ -10,6 +10,6 @@ RUN ls
 # COPY index.js /index.js
 
 RUN apk add --no-cache git nodejs npm
-RUN chmod +x entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
