@@ -1,2 +1,2 @@
-const { npmInstallAction } = require('npm-install');
+import { npmInstallAction } from 'npm-install';
 await npmInstallAction();
