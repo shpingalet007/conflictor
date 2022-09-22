@@ -5,9 +5,7 @@ WORKDIR conflictor
 COPY entrypoint.sh /entrypoint.sh
 COPY index.js /index.js
 
-RUN ls
-RUN cd .. ; ls
-RUN cd ../.. ; ls
+RUN ls conflictor
 
 # COPY entrypoint.sh /entrypoint.sh
 # COPY index.js /index.js
