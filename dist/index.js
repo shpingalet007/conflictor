@@ -13058,8 +13058,9 @@ if (isActions) {
   const repo = core.getInput('repository');
   const marker = core.getInput('deploy-label');
   const mainBranch = core.getInput('main-branch');
+  const project = '.';
 
-  argv = { repo, marker, mainBranch };
+  argv = { repo, marker, mainBranch, project };
 } else {
   argv = yargs(process.argv)
     .option('project', {
@@ -13128,6 +13129,7 @@ async function actionConflictor() {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Repository set to: ${_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].repo */ .Z.repo}`);
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Main branch name: ${_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].mainBranch */ .Z.mainBranch}`);
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Using deploy label: ${_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].marker */ .Z.marker}`);
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Using current folder as git project');
 
     const pullStats = await (0,_index_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z)(_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z);
 
