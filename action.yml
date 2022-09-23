@@ -17,6 +17,10 @@ inputs:
     description: 'Repository main branch name'
     default: 'main'
     required: false
+  create-graph:
+    description: 'Conflictor will try generate a graph. Still in development'
+    default: 'false'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
