@@ -1,4 +1,0 @@
-[submodule "node_modules/npm-install"]
-	path = node_modules/npm-install
-	url = https://github.com/bahmutov/npm-install.git
-	branch = master
