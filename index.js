@@ -1,4 +1,4 @@
-const { dirname } = require('path');
+import { dirname } from 'path';
 import artifact from '@actions/artifact';
 import { exec } from 'child_process';
 import { fetchPulls } from './fetch-pulls.js';
