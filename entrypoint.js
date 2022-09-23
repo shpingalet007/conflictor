@@ -1,6 +1,6 @@
 import core from '@actions/core';
 import args from './args.js';
-import conflictor from './index.js';
+import conflictor from './dist/index.js';
 
 async function actionConflictor() {
   try {
