@@ -19,5 +19,4 @@ inputs:
     required: false
 runs:
   using: 'node16'
-  pre: 'pre-action.js'
   main: 'entrypoint.js'
