@@ -35,6 +35,8 @@ export default async function conflictor(args) {
   const shaList = pullsData.map(p => p.sha);
   const titlesList = pullsData.map(p => p.title);
 
+  console.log('Pulls to merge:', pullsData);
+
   /*const shaList = [
     '3a1c897b27362f1b3edc823f322bd7965069aed7',
     '0035762b7c6d660e85d6ec0c08fc2a12d4758233',
@@ -1815,6 +1817,8 @@ export default async function conflictor(args) {
 
   return new Promise((resolve, reject) => {
     exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, (error, stdout, stderr) => {
+      console.log('BASH STDOUT:', stdout);
+
       const errorReceived = stdout.match(errorRegex)?.[1];
 
       if (errorReceived) {
