@@ -53,6 +53,10 @@ if (isActions) {
       description: 'Output merge variants graph (PNG image)',
       type: 'boolean',
     })
+    .option('debug', {
+      description: 'Set to see some extra logs',
+      type: 'boolean',
+    })
     .demandOption(['repo', 'marker'])
     .help()
     .version()

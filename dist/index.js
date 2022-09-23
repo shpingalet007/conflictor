@@ -13102,6 +13102,10 @@ if (isActions) {
       description: 'Output merge variants graph (PNG image)',
       type: 'boolean',
     })
+    .option('debug', {
+      description: 'Set to see some extra logs',
+      type: 'boolean',
+    })
     .demandOption(['repo', 'marker'])
     .help()
     .version()
@@ -13132,6 +13136,9 @@ async function actionConflictor() {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Using current folder as git project');
 
     const pullStats = await (0,_index_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z)(_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z);
+
+    console.log('----- PULL REQUESTS STATS ------');
+    console.log(pullStats);
 
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('stats', pullStats);
   } catch (error) {
@@ -15224,7 +15231,9 @@ async function conflictor(args) {
 
   return new Promise((resolve, reject) => {
     (0,external_child_process_namespaceObject.exec)(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, (error, stdout, stderr) => {
-      console.log('BASH STDOUT:', error, stdout, stderr);
+      if (args.debug) {
+        console.log('BASH Debug information:', error, stdout, stderr);
+      }
 
       const errorReceived = stdout.match(errorRegex)?.[1];
 

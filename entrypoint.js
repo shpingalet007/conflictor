@@ -11,6 +11,9 @@ async function actionConflictor() {
 
     const pullStats = await conflictor(args);
 
+    console.log('----- PULL REQUESTS STATS ------');
+    console.log(pullStats);
+
     core.setOutput('stats', pullStats);
   } catch (error) {
     core.setFailed(error);

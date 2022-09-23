@@ -1817,7 +1817,9 @@ export default async function conflictor(args) {
 
   return new Promise((resolve, reject) => {
     exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, (error, stdout, stderr) => {
-      console.log('BASH STDOUT:', error, stdout, stderr);
+      if (args.debug) {
+        console.log('BASH Debug information:', error, stdout, stderr);
+      }
 
       const errorReceived = stdout.match(errorRegex)?.[1];
 
