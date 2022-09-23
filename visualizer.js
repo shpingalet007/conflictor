@@ -1,16 +1,7 @@
 import {graphviz} from "node-graphviz";
 import fs from "fs";
 
-function getAlphabet() {
-  const alpha = Array.from(Array(26)).map((e, i) => i + 65);
-  const alphabet = alpha.map((x) => String.fromCharCode(x));
-
-  return alphabet;
-}
-
-export default function(pullsData) {
-  const ab = getAlphabet();
-
+export default function(pullsData, mainBranchSha) {
   const nodes = pullsData.map((pull) => {
     const nodeData = {};
 
@@ -18,26 +9,12 @@ export default function(pullsData) {
     nodeData.label = pull.title;
     nodeData.path = [];
     nodeData.impacts = pull.concurrency?.map((concurrency) => {
-      return pullsData.find(pull => pull.sha === concurrency.sha).pullNumber;
+      return pullsData.find(pull => pull.sha === concurrency.sha || concurrency.sha === mainBranchSha).pullNumber;
     }) || [];
 
     return nodeData;
   });
-  nodes.push({node: 'master', label: 'master', impacts: [], path: [], base: true});
-
-  /*const nodes = [
-    {node: 'master', label: 'master', impacts: [], path: [], base: true},
-    {node: 'f', label: 'f', impacts: ['i'], path: []},
-    {node: 'b', label: 'b', impacts: [], path: []},
-    {node: 'd', label: 'd', impacts: [], path: []},
-    {node: 'c', label: 'c', impacts: [], path: []},
-    {node: 'e', label: 'e', impacts: ['a', 'aa'], path: []},
-    {node: 'a', label: 'a', impacts: [], path: []},
-    {node: 'aa', label: 'aa', impacts: [], path: []},
-    {node: 'i', label: 'i', impacts: ['f', 'g', 'h'], path: []},
-    {node: 'g', label: 'g', impacts: ['i'], path: []},
-    {node: 'h', label: 'h', impacts: ['i'], path: []},
-  ];*/
+  nodes.push({node: 'base', label: 'base', impacts: [], path: [], base: true});
 
   let levels = [nodes.filter(n => !!n.base)];
 
@@ -56,9 +33,6 @@ export default function(pullsData) {
     const mapBase = levels[0][0];
 
     n.path = [...mapBase.path, mapBase.label];
-
-    // levels.pop();
-    // levels.push([n]);
 
     levels.pop()
     levels.push([n]);
@@ -80,8 +54,6 @@ export default function(pullsData) {
     const mapBase = levels.at(-1)[0];
 
     n.path = [...mapBase.path, mapBase.label];
-
-    // levels.push([n]);
 
     levels.push([n]);
     return `${mapBase.node} -> ${n.node}`;
@@ -115,13 +87,13 @@ export default function(pullsData) {
           if (i < levels.length - 1) {
             levels[i + 1].push(n);
 
-            const fNodes = nodes.filter((n, i) => {
+            /*const fNodes = nodes.filter((n, i) => {
               const nParent = n.path.at(-1);
 
               if (nParent === 'f') {
                 return true;
               }
-            });
+            });*/
           } else {
             levels.push([n]);
           }
@@ -149,8 +121,11 @@ export default function(pullsData) {
   ${impactingNodesMappings}
 }`;
 
-  graphviz.layout(graph, 'svg').then((svg) => {
-    // Write the SVG to file
-    fs.writeFileSync('graph.svg', svg);
+  return new Promise((resolve, reject) => {
+    graphviz.layout(graph, 'svg').then((svg) => {
+      // Write the SVG to file
+      fs.writeFileSync('graph.svg', svg);
+      resolve();
+    });
   });
 }

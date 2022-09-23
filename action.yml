@@ -1,0 +1,26 @@
+name: 'Conflictor'
+description: 'Utility that analyzes pull requests and conflicts between them'
+branding:
+  icon: git-pull-request
+  color: yellow
+inputs:
+  isActions:
+    description: 'Just informing conflictor that this call came from Github Actions'
+    default: 'true'
+  repository:
+    description: 'Repository full name'
+    required: true
+  deploy-label:
+    description: 'Deploy label'
+    required: true
+  main-branch:
+    description: 'Repository main branch name'
+    default: 'main'
+    required: false
+  create-graph:
+    description: 'Conflictor will try generate a graph. Still in development'
+    default: 'false'
+    required: false
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
