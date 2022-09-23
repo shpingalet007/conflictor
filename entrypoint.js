@@ -7,6 +7,7 @@ async function actionConflictor() {
     core.info(`Repository set to: ${args.repo}`);
     core.info(`Main branch name: ${args.mainBranch}`);
     core.info(`Using deploy label: ${args.marker}`);
+    core.info('Using current folder as git project');
 
     const pullStats = await conflictor(args);
 
