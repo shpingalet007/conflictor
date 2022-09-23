@@ -15222,7 +15222,7 @@ async function conflictor(args) {
 
   return new Promise((resolve, reject) => {
     (0,external_child_process_namespaceObject.exec)(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, (error, stdout, stderr) => {
-      console.log('BASH STDOUT:', stdout);
+      console.log('BASH STDOUT:', error, stdout, stderr);
 
       const errorReceived = stdout.match(errorRegex)?.[1];
 
