@@ -1,7 +1,11 @@
+const { dirname } = require('path');
+import artifact from '@actions/artifact';
 import { exec } from 'child_process';
 import { fetchPulls } from './fetch-pulls.js';
 
 import visualize from './visualizer.js';
+
+const appDir = dirname(require.main.filename);
 
 export default async function conflictor(args) {
   let directImpactsRegex = />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm;
@@ -1818,7 +1822,7 @@ export default async function conflictor(args) {
   `;*/
 
   return new Promise((resolve, reject) => {
-    exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, (error, stdout, stderr) => {
+    exec(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, async (error, stdout, stderr) => {
       if (args.debug) {
         console.log('BASH Debug information:', error, stdout, stderr);
       }
@@ -1983,7 +1987,13 @@ export default async function conflictor(args) {
       resolve(pullStats);
 
       if (args.graph) {
-        visualize(pullStats, mainBranchSha);
+        await visualize(pullStats, mainBranchSha);
+
+        if (args.isActions) {
+          const artifactClient = artifact.create();
+
+          await artifactClient.uploadArtifact('conflicts-graph', 'graph.svg', appDir);
+        }
       }
     });
   });

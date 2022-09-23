@@ -149,8 +149,11 @@ export default function(pullsData, mainBranchSha) {
   ${impactingNodesMappings}
 }`;
 
-  graphviz.layout(graph, 'svg').then((svg) => {
-    // Write the SVG to file
-    fs.writeFileSync('graph.svg', svg);
+  return new Promise((resolve, reject) => {
+    graphviz.layout(graph, 'svg').then((svg) => {
+      // Write the SVG to file
+      fs.writeFileSync('graph.svg', svg);
+      resolve();
+    });
   });
 }
