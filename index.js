@@ -3,6 +3,7 @@ import { exec } from 'child_process';
 import { fetchPulls } from './fetch-pulls.js';
 
 import visualize from './visualizer.js';
+import fs from "fs";
 
 const appDir = process.cwd();
 
@@ -1991,9 +1992,9 @@ export default async function conflictor(args) {
         if (args.isActions) {
           const artifactClient = artifact.create();
 
-          console.log('Uploading graph as artifact');
+          fs.writeFileSync('stats.json', JSON.stringify(pullStats, null, 4));
 
-          await artifactClient.uploadArtifact('conflicts-graph', ['graph.svg'], appDir);
+          await artifactClient.uploadArtifact('statistics', ['stats.json', 'graph.svg'], appDir);
         }
       }
     });

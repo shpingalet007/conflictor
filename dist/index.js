@@ -20230,6 +20230,7 @@ function getAlphabet() {
 
 
 
+
 const appDir = process.cwd();
 
 async function conflictor(args) {
@@ -22217,9 +22218,9 @@ async function conflictor(args) {
         if (args.isActions) {
           const artifactClient = artifact_client.create();
 
-          console.log('Uploading graph as artifact');
+          external_fs_.writeFileSync('stats.json', JSON.stringify(pullStats, null, 4));
 
-          await artifactClient.uploadArtifact('conflicts-graph', ['graph.svg'], appDir);
+          await artifactClient.uploadArtifact('statistics', ['stats.json', 'graph.svg'], appDir);
         }
       }
     });
