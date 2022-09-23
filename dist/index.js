@@ -22219,7 +22219,7 @@ async function conflictor(args) {
 
           console.log('Uploading graph as artifact');
 
-          await artifactClient.uploadArtifact('conflicts-graph', 'graph.svg', appDir);
+          await artifactClient.uploadArtifact('conflicts-graph', ['graph.svg'], appDir);
         }
       }
     });
