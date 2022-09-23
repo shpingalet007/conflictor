@@ -35,7 +35,9 @@ export default async function conflictor(args) {
   const shaList = pullsData.map(p => p.sha);
   const titlesList = pullsData.map(p => p.title);
 
-  console.log('Pulls to merge:', pullsData);
+  if (args.debug) {
+    console.log('Pulls to analyze:', pullsData);
+  }
 
   /*const shaList = [
     '3a1c897b27362f1b3edc823f322bd7965069aed7',
