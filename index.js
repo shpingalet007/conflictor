@@ -1992,6 +1992,8 @@ export default async function conflictor(args) {
         if (args.isActions) {
           const artifactClient = artifact.create();
 
+          console.log('Uploading graph as artifact');
+
           await artifactClient.uploadArtifact('conflicts-graph', 'graph.svg', appDir);
         }
       }
