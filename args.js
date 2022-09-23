@@ -6,12 +6,13 @@ let argv = {};
 const isActions = (core.getInput('isActions') === 'true');
 
 if (isActions) {
+  const isActions = true;
   const repo = core.getInput('repository');
   const marker = core.getInput('deploy-label');
   const mainBranch = core.getInput('main-branch');
   const project = '.';
 
-  argv = { repo, marker, mainBranch, project };
+  argv = { isActions, repo, marker, mainBranch, project };
 } else {
   argv = yargs(process.argv)
     .option('project', {
