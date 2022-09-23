@@ -19969,8 +19969,6 @@ __nccwpck_require__.d(__webpack_exports__, {
   "Z": () => (/* binding */ conflictor)
 });
 
-// EXTERNAL MODULE: external "path"
-var external_path_ = __nccwpck_require__(1017);
 // EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
 var artifact_client = __nccwpck_require__(7605);
 ;// CONCATENATED MODULE: external "child_process"
@@ -20232,8 +20230,7 @@ function getAlphabet() {
 
 
 
-
-const appDir = (0,external_path_.dirname)(require.main.filename);
+const appDir = process.cwd();
 
 async function conflictor(args) {
   let directImpactsRegex = />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm;

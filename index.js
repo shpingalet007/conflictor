@@ -1,11 +1,10 @@
-import { dirname } from 'path';
 import artifact from '@actions/artifact';
 import { exec } from 'child_process';
 import { fetchPulls } from './fetch-pulls.js';
 
 import visualize from './visualizer.js';
 
-const appDir = dirname(require.main.filename);
+const appDir = process.cwd();
 
 export default async function conflictor(args) {
   let directImpactsRegex = />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm;
