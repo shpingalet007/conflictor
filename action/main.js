@@ -1,23 +1,19 @@
 import core from '@actions/core';
-import args from './args.js';
-import conflictor from './index.js';
+import args from '../src/args.js';
+import Conflictor from '../src/index.js';
 
-async function actionConflictor() {
-  try {
-    core.info(`Repository set to: ${args.repo}`);
-    core.info(`Main branch name: ${args.mainBranch}`);
-    core.info(`Using deploy label: ${args.marker}`);
-    core.info('Using current folder as git project');
+try {
+  core.info(`Repository set to: ${args.repo}`);
+  core.info(`Main branch name: ${args.mainBranch}`);
+  core.info(`Using deploy label: ${args.marker}`);
+  core.info('Using current folder as git project');
 
-    const pullStats = await conflictor(args);
+  const pullStats = await Conflictor.analyze(args);
 
-    console.log('----- PULL REQUESTS STATS ------');
-    console.log(pullStats);
+  console.log('----- PULL REQUESTS STATS ------');
+  console.log(pullStats);
 
-    core.setOutput('stats', pullStats);
-  } catch (error) {
-    core.setFailed(error);
-  }
+  core.setOutput('stats', pullStats);
+} catch (error) {
+  core.setFailed(error);
 }
-
-await actionConflictor();

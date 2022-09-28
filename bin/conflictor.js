@@ -1,8 +1,7 @@
 import args from '../src/args.js';
 import Conflictor from '../src/index.js';
 
-const conflictor = new Conflictor(args);
-const result = await conflictor.runAnalyze();
+const result = await Conflictor.analyze(args);
 
 if (result?.constructor.name === 'Error') {
   console.log(result.message);
