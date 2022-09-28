@@ -8,7 +8,7 @@ import { exec } from 'child_process';
 const appDir = process.cwd();
 
 export default class Conflictor {
-  static CrossMergerPath = './cross-merge.sh';
+  static CrossMergerPath = `${appDir}/src/cross-merge.sh`;
 
   static RegExp = {
     DirectImpact: />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm,
@@ -285,8 +285,7 @@ export default class Conflictor {
     const goToProjectFolder = `cd ${this.args.project}`;
     preCommands.push(goToProjectFolder);
 
-    const runBashAnalyzer = path.resolve('src', Conflictor.CrossMergerPath);
-    preCommands.push(`${runBashAnalyzer} ${this.shaList.join(' ')}`);
+    preCommands.push(`${Conflictor.CrossMergerPath} ${this.shaList.join(' ')}`);
 
     return preCommands.join(' && ');
   }

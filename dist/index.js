@@ -20209,7 +20209,7 @@ const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(
 const appDir = process.cwd();
 
 class Conflictor {
-  static CrossMergerPath = './cross-merge.sh';
+  static CrossMergerPath = __nccwpck_require__.ab + "cross-merge.sh";
 
   static RegExp = {
     DirectImpact: />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm,
@@ -20486,8 +20486,7 @@ class Conflictor {
     const goToProjectFolder = `cd ${this.args.project}`;
     preCommands.push(goToProjectFolder);
 
-    const runBashAnalyzer = external_path_.resolve('src', Conflictor.CrossMergerPath);
-    preCommands.push(`${runBashAnalyzer} ${this.shaList.join(' ')}`);
+    preCommands.push(`${Conflictor.CrossMergerPath} ${this.shaList.join(' ')}`);
 
     return preCommands.join(' && ');
   }
