@@ -20271,7 +20271,7 @@ class Conflictor {
 
   async processExecOutput(error, stdout, stderr) {
     if (error || stderr) {
-      return;
+      throw error || stderr;
     }
 
     if (this.args.debug) {
