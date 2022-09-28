@@ -266,7 +266,7 @@ export default class Conflictor {
 
   static async analyze(args) {
     const conflictor = new Conflictor(args);
-    await conflictor.runAnalyze();
+    return await conflictor.runAnalyze();
   }
 
   getExecCommand() {
