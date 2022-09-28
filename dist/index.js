@@ -19897,9 +19897,10 @@ if (isActions) {
   const marker = core.getInput('deploy-label');
   const mainBranch = core.getInput('main-branch');
   const graph = (core.getInput('create-graph') === 'true');
+  const json = (core.getInput('create-json') === 'true');
   const project = '.';
 
-  argv = { isActions, repo, marker, mainBranch, project, graph };
+  argv = { isActions, repo, marker, mainBranch, project, graph, json };
 } else {
   argv = yargs(process.argv)
     .option('project', {
