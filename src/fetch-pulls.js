@@ -42,7 +42,7 @@ async function fetchPullsByLabel(repo, label) {
   const q = {
     repo: repo,
     is: 'pr',
-    // label: `"${label.replaceAll(/\s/g, '+')}"`,
+    label: `"${label.replaceAll(/\s/g, '+')}"`,
   };
 
   const qString = Object.keys(q)
@@ -54,7 +54,7 @@ async function fetchPullsByLabel(repo, label) {
     query: `q=${encodeURI(qString)}+is:open`,
   });
 
-  return pulls.items.slice(6,10);
+  return pulls.items;
 }
 async function fetchPullMergeCommit(pull) {
   const pullData = await httpRequest({

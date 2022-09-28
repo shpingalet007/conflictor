@@ -50,6 +50,11 @@ if (isActions) {
       describe: '[merge_commit_1, merge_commit_2, ..., merge_commit_N]',
       type: 'string',
     })
+    .option('json', {
+      alias: 'j',
+      description: 'Output analyze results as JSON file',
+      type: 'boolean'
+    })
     .option('graph', {
       alias: 'g',
       description: 'Output merge variants graph (PNG image)',
