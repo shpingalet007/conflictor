@@ -8,7 +8,9 @@
   },
   "type": "module",
   "scripts": {
-    "start": "node index.js --project /Users/developer/Documents/GitHub/official-pocketnet.gui"
+    "start": "node index.js --project /Users/developer/Documents/GitHub/official-pocketnet.gui",
+    "test:bastyon": "node bin/conflictor.js --repo pocketnetteam/pocketnet.gui --project /Users/developer/Documents/GitHub/official-pocketnet.gui --marker deploy.dev --mainBranch master",
+    "new-test:bastyon": "node bin/new-conflictor.js --repo pocketnetteam/pocketnet.gui --project /Users/developer/Documents/GitHub/official-pocketnet.gui --marker deploy.dev --mainBranch master"
   },
   "author": "",
   "license": "ISC",
