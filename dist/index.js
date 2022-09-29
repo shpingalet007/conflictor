@@ -14437,24 +14437,24 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 
 /***/ }),
 
-/***/ 4966:
+/***/ 7313:
 /***/ ((__webpack_module__, __unused_webpack___webpack_exports__, __nccwpck_require__) => {
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__) => {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5760);
-/* harmony import */ var _src_args_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5862);
-/* harmony import */ var _src_index_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(1410);
+/* harmony import */ var _src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5031);
+/* harmony import */ var _src_main_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(5237);
 
 
 
 
 try {
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Repository set to: ${_src_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].repo */ .Z.repo}`);
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Main branch name: ${_src_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].mainBranch */ .Z.mainBranch}`);
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Using deploy label: ${_src_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].marker */ .Z.marker}`);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Repository set to: ${_src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].repo */ .Z.repo}`);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Main branch name: ${_src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].mainBranch */ .Z.mainBranch}`);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Using deploy label: ${_src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].marker */ .Z.marker}`);
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Using current folder as git project');
 
-  const pullStats = await _src_index_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"].analyze */ .Z.analyze(_src_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z);
+  const pullStats = await _src_main_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"].analyze */ .Z.analyze(_src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z);
 
   console.log('----- PULL REQUESTS STATS ------');
   console.log(pullStats);
@@ -14469,7 +14469,7 @@ __webpack_handle_async_dependencies__();
 
 /***/ }),
 
-/***/ 5862:
+/***/ 5031:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -19883,7 +19883,7 @@ const Yargs = YargsFactory(esm);
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(5760);
-;// CONCATENATED MODULE: ./src/args.js
+;// CONCATENATED MODULE: ./src/libs/args.js
 
 
 
@@ -19962,7 +19962,7 @@ if (isActions) {
 
 /***/ }),
 
-/***/ 1410:
+/***/ 5237:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -19971,13 +19971,13 @@ __nccwpck_require__.d(__webpack_exports__, {
   "Z": () => (/* binding */ Conflictor)
 });
 
-// EXTERNAL MODULE: external "path"
-var external_path_ = __nccwpck_require__(1017);
 // EXTERNAL MODULE: external "fs"
 var external_fs_ = __nccwpck_require__(7147);
+// EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
+var artifact_client = __nccwpck_require__(7605);
 // EXTERNAL MODULE: ./node_modules/node-graphviz/index.js
 var node_graphviz = __nccwpck_require__(5905);
-;// CONCATENATED MODULE: ./src/visualizer.js
+;// CONCATENATED MODULE: ./src/libs/visualizer.js
 
 
 
@@ -20110,11 +20110,9 @@ var node_graphviz = __nccwpck_require__(5905);
   });
 }
 
-// EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
-var artifact_client = __nccwpck_require__(7605);
 // EXTERNAL MODULE: external "https"
 var external_https_ = __nccwpck_require__(5687);
-;// CONCATENATED MODULE: ./src/fetch-pulls.js
+;// CONCATENATED MODULE: ./src/libs/fetch-pulls.js
 
 
 // query, path, authToken
@@ -20199,8 +20197,7 @@ async function fetchPulls(repo, label) {
 
 ;// CONCATENATED MODULE: external "child_process"
 const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
-;// CONCATENATED MODULE: ./src/index.js
-
+;// CONCATENATED MODULE: ./src/main.js
 
 
 
@@ -20629,6 +20626,6 @@ class Conflictor {
 /******/ // startup
 /******/ // Load entry module and return exports
 /******/ // This entry module used 'module' so it can't be inlined
-/******/ var __webpack_exports__ = __nccwpck_require__(4966);
+/******/ var __webpack_exports__ = __nccwpck_require__(7313);
 /******/ __webpack_exports__ = await __webpack_exports__;
 /******/ 

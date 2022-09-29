@@ -1,16 +1,14 @@
 {
   "name": "conflictor",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Utility that analyzes pull requests and conflicts between them",
-  "main": "index.js",
+  "main": "main.js",
   "bin": {
     "conflictor": "./bin/conflictor.js"
   },
   "type": "module",
   "scripts": {
-    "start": "node index.js --project /Users/developer/Documents/GitHub/official-pocketnet.gui",
-    "test:bastyon": "node bin/conflictor.js --repo pocketnetteam/pocketnet.gui --project /Users/developer/Documents/GitHub/official-pocketnet.gui --marker deploy.dev --mainBranch master --graph --json",
-    "build:action-dist": "ncc build action/main.js -o dist"
+    "build:action": "ncc build src/action.js -o dist"
   },
   "author": "",
   "license": "ISC",

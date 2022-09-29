@@ -1,14 +1,13 @@
-import path from 'path';
 import fs from 'fs';
-import visualize from './visualizer.js';
 import artifact from '@actions/artifact';
-import { fetchPulls } from './fetch-pulls.js';
+import visualize from './libs/visualizer.js';
+import { fetchPulls } from './libs/fetch-pulls.js';
 import { exec } from 'child_process';
 
 const appDir = process.cwd();
 
 export default class Conflictor {
-  static CrossMergerPath = `${appDir}/src/cross-merge.sh`;
+  static CrossMergerPath = `${appDir}/src/libs/cross-merge.sh`;
 
   static RegExp = {
     DirectImpact: />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm,

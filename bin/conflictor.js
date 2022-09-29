@@ -1,4 +1,4 @@
-import args from '../src/args.js';
+import args from '../src/libs/args.js';
 import Conflictor from '../src/index.js';
 
 const result = await Conflictor.analyze(args);

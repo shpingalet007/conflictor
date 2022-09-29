@@ -1,6 +1,6 @@
 import core from '@actions/core';
-import args from '../src/args.js';
-import Conflictor from '../src/index.js';
+import args from '../src/libs/args.js';
+import Conflictor from '../src/main.js';
 
 try {
   core.info(`Repository set to: ${args.repo}`);
