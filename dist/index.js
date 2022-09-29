@@ -14437,7 +14437,39 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 
 /***/ }),
 
-/***/ 3563:
+/***/ 7313:
+/***/ ((__webpack_module__, __unused_webpack___webpack_exports__, __nccwpck_require__) => {
+
+__nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__) => {
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5760);
+/* harmony import */ var _src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5031);
+/* harmony import */ var _src_main_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(5237);
+
+
+
+
+try {
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Repository set to: ${_src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].repo */ .Z.repo}`);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Main branch name: ${_src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].mainBranch */ .Z.mainBranch}`);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Using deploy label: ${_src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].marker */ .Z.marker}`);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Using current folder as git project');
+
+  const pullStats = await _src_main_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"].analyze */ .Z.analyze(_src_libs_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z);
+
+  console.log('----- PULL REQUESTS STATS ------');
+  console.log(pullStats);
+
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('stats', pullStats);
+} catch (error) {
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error);
+}
+
+__webpack_handle_async_dependencies__();
+}, 1);
+
+/***/ }),
+
+/***/ 5031:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -19851,7 +19883,7 @@ const Yargs = YargsFactory(esm);
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(5760);
-;// CONCATENATED MODULE: ./args.js
+;// CONCATENATED MODULE: ./src/libs/args.js
 
 
 
@@ -19865,9 +19897,10 @@ if (isActions) {
   const marker = core.getInput('deploy-label');
   const mainBranch = core.getInput('main-branch');
   const graph = (core.getInput('create-graph') === 'true');
+  const json = (core.getInput('create-json') === 'true');
   const project = '.';
 
-  argv = { isActions, repo, marker, mainBranch, project, graph };
+  argv = { isActions, repo, marker, mainBranch, project, graph, json };
 } else {
   argv = yargs(process.argv)
     .option('project', {
@@ -19904,6 +19937,11 @@ if (isActions) {
       describe: '[merge_commit_1, merge_commit_2, ..., merge_commit_N]',
       type: 'string',
     })
+    .option('json', {
+      alias: 'j',
+      description: 'Output analyze results as JSON file',
+      type: 'boolean'
+    })
     .option('graph', {
       alias: 'g',
       description: 'Output merge variants graph (PNG image)',
@@ -19924,145 +19962,22 @@ if (isActions) {
 
 /***/ }),
 
-/***/ 6997:
-/***/ ((__webpack_module__, __unused_webpack___webpack_exports__, __nccwpck_require__) => {
-
-__nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__) => {
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5760);
-/* harmony import */ var _args_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3563);
-/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(6541);
-
-
-
-
-async function actionConflictor() {
-  try {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Repository set to: ${_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].repo */ .Z.repo}`);
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Main branch name: ${_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].mainBranch */ .Z.mainBranch}`);
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Using deploy label: ${_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"].marker */ .Z.marker}`);
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Using current folder as git project');
-
-    const pullStats = await (0,_index_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z)(_args_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z);
-
-    console.log('----- PULL REQUESTS STATS ------');
-    console.log(pullStats);
-
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('stats', pullStats);
-  } catch (error) {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error);
-  }
-}
-
-await actionConflictor();
-
-__webpack_handle_async_dependencies__();
-}, 1);
-
-/***/ }),
-
-/***/ 6541:
+/***/ 5237:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
 // EXPORTS
 __nccwpck_require__.d(__webpack_exports__, {
-  "Z": () => (/* binding */ conflictor)
+  "Z": () => (/* binding */ Conflictor)
 });
 
-// EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
-var artifact_client = __nccwpck_require__(7605);
-;// CONCATENATED MODULE: external "child_process"
-const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
-// EXTERNAL MODULE: external "https"
-var external_https_ = __nccwpck_require__(5687);
-;// CONCATENATED MODULE: ./fetch-pulls.js
-
-
-// query, path, authToken
-function httpRequest(params) {
-  const options = {
-    method: 'GET',
-    hostname: 'api.github.com',
-    path: `${params.path}?${params.query}`,
-    port: 443,
-    headers: {
-      'User-Agent': 'Conflictor Utility',
-      'Accept': 'application/vnd.github+json',
-    },
-  };
-
-  if (params.authToken) {
-    options.headers['Authorization'] = params.authToken;
-  }
-
-  return new Promise((resolve, reject) => {
-    const req = external_https_.request(options, (res) => {
-      let body = '';
-
-      res.on('data', (chunk) => {
-        body += chunk.toString();
-      });
-
-      res.on('end', (data) => {
-        resolve(JSON.parse(body));
-      });
-    });
-
-    req.on('error', (err) => {
-      reject(err);
-    });
-
-    req.end();
-  });
-}
-
-async function fetchPullsByLabel(repo, label) {
-  const q = {
-    repo: repo,
-    is: 'pr',
-    label: `"${label.replaceAll(/\s/g, '+')}"`,
-  };
-
-  const qString = Object.keys(q)
-    .map((key) => `${key}:${q[key]}`)
-    .join('+');
-
-  const pulls = await httpRequest({
-    path: '/search/issues',
-    query: `q=${encodeURI(qString)}+is:open`,
-  });
-
-  return pulls.items;
-}
-async function fetchPullMergeCommit(pull) {
-  const pullData = await httpRequest({
-    path: (new URL(pull.pull_request.url)).pathname,
-  });
-
-  return pullData.head.sha;
-}
-
-async function fetchPulls(repo, label) {
-  const labeledPulls = await fetchPullsByLabel(repo, label);
-
-  const mergeCommits = [];
-
-  for (let i = 0; i < labeledPulls.length; i++) {
-    mergeCommits.push({
-      pullNumber: labeledPulls[i].number,
-      title: labeledPulls[i].title,
-      sha: await fetchPullMergeCommit(labeledPulls[i]),
-    });
-  }
-
-  return mergeCommits;
-}
-
-// EXTERNAL MODULE: ./node_modules/node-graphviz/index.js
-var node_graphviz = __nccwpck_require__(5905);
 // EXTERNAL MODULE: external "fs"
 var external_fs_ = __nccwpck_require__(7147);
-;// CONCATENATED MODULE: ./visualizer.js
+// EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
+var artifact_client = __nccwpck_require__(7605);
+// EXTERNAL MODULE: ./node_modules/node-graphviz/index.js
+var node_graphviz = __nccwpck_require__(5905);
+;// CONCATENATED MODULE: ./src/libs/visualizer.js
 
 
 
@@ -20195,8 +20110,94 @@ var external_fs_ = __nccwpck_require__(7147);
   });
 }
 
-;// CONCATENATED MODULE: ./index.js
+// EXTERNAL MODULE: external "https"
+var external_https_ = __nccwpck_require__(5687);
+;// CONCATENATED MODULE: ./src/libs/fetch-pulls.js
 
+
+// query, path, authToken
+function httpRequest(params) {
+  const options = {
+    method: 'GET',
+    hostname: 'api.github.com',
+    path: `${params.path}?${params.query}`,
+    port: 443,
+    headers: {
+      'User-Agent': 'Conflictor Utility',
+      'Accept': 'application/vnd.github+json',
+    },
+  };
+
+  if (params.authToken) {
+    options.headers['Authorization'] = params.authToken;
+  }
+
+  return new Promise((resolve, reject) => {
+    const req = external_https_.request(options, (res) => {
+      let body = '';
+
+      res.on('data', (chunk) => {
+        body += chunk.toString();
+      });
+
+      res.on('end', (data) => {
+        resolve(JSON.parse(body));
+      });
+    });
+
+    req.on('error', (err) => {
+      reject(err);
+    });
+
+    req.end();
+  });
+}
+
+async function fetchPullsByLabel(repo, label) {
+  const q = {
+    repo: repo,
+    is: 'pr',
+    label: `"${label.replaceAll(/\s/g, '+')}"`,
+  };
+
+  const qString = Object.keys(q)
+    .map((key) => `${key}:${q[key]}`)
+    .join('+');
+
+  const pulls = await httpRequest({
+    path: '/search/issues',
+    query: `q=${encodeURI(qString)}+is:open`,
+  });
+
+  return pulls.items;
+}
+async function fetchPullMergeCommit(pull) {
+  const pullData = await httpRequest({
+    path: (new URL(pull.pull_request.url)).pathname,
+  });
+
+  return pullData.head.sha;
+}
+
+async function fetchPulls(repo, label) {
+  const labeledPulls = await fetchPullsByLabel(repo, label);
+
+  const mergeCommits = [];
+
+  for (let i = 0; i < labeledPulls.length; i++) {
+    mergeCommits.push({
+      pullNumber: labeledPulls[i].number,
+      title: labeledPulls[i].title,
+      sha: await fetchPullMergeCommit(labeledPulls[i]),
+    });
+  }
+
+  return mergeCommits;
+}
+
+;// CONCATENATED MODULE: external "child_process"
+const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
+;// CONCATENATED MODULE: ./src/main.js
 
 
 
@@ -20205,220 +20206,288 @@ var external_fs_ = __nccwpck_require__(7147);
 
 const appDir = process.cwd();
 
-async function conflictor(args) {
-  let directImpactsRegex = />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm;
-  let sideImpactsRegex = />>> SIDE IMPACT.*$\n(.*\n)*?>>> END/gm;
-  let masterShaRegex = />>> MASTER BRANCH SHA \[(.+)\]$/m;
-  let errorRegex = />>> ERROR \[(.+)\]$/m;
+class Conflictor {
+  static CrossMergerPath = __nccwpck_require__.ab + "cross-merge.sh";
 
-  let changes = {};
-  let conflicts = {};
-  let intersected = {};
-  let mergeOrder = [];
+  static RegExp = {
+    DirectImpact: />>> DIRECT IMPACT.*$\n(.*\n)*?>>> END/gm,
+    SideImpact: />>> SIDE IMPACT.*$\n(.*\n)*?>>> END/gm,
+    MasterSha: />>> MASTER BRANCH SHA \[(.+)\]$/m,
+    Error: />>> ERROR \[(.+)\]$/m,
+  };
 
-  let optionalCommands = '';
-  const projectFolder = `cd ${args.project}`;
-  const runScript = __nccwpck_require__.ab + "conflicts.sh";
+  constructor(args) {
+    this.args = args;
 
-  if (args.base) {
-    optionalCommands += `export CONFLICTOR_MASTER_SHA=${args.base} &&`;
-  }
-
-  if (args.mainBranch) {
-    optionalCommands += `export CONFLICTOR_MAIN_BRANCH=${args.mainBranch} &&`
-  }
-
-  const pullsData = await fetchPulls(args.repo, args.marker);
-
-  if (!pullsData.length) {
-    return Promise.resolve(Error('NO PULLS TO MERGE'));
-  }
-
-  const shaList = pullsData.map(p => p.sha);
-  const titlesList = pullsData.map(p => p.title);
-
-  if (args.debug) {
-    console.log('Pulls to analyze:', pullsData);
-  }
-
-  return new Promise((resolve, reject) => {
-    (0,external_child_process_namespaceObject.exec)(`${optionalCommands}${projectFolder} && ${runScript} ${shaList.join(' ')}`, async (error, stdout, stderr) => {
-      if (args.debug) {
-        console.log('BASH Debug information:', error, stdout, stderr);
-      }
-
-      const errorReceived = stdout.match(errorRegex)?.[1];
-
-      if (errorReceived) {
-        throw Error(errorReceived);
-      }
-
-      const mainBranchSha = stdout.match(masterShaRegex)[1];
-
-      shaList.push(mainBranchSha);
-      titlesList.push(args.mainBranch);
-
-      stdout.match(directImpactsRegex).forEach((pull) => {
-        const pulls = pull.split('\n');
-
-        const pullId = pulls[0].match(/\d+/g);
-
-        pulls.shift();
-        pulls.pop();
-
-        changes[Number.parseInt(pullId)] = [...new Set(pulls)];
-      });
-
-      stdout.match(sideImpactsRegex).forEach((pair) => {
-        const pairs = pair.split('\n');
-
-        const pairId = pairs[0].match(/\d+:\d+/g);
-
-        pairs.shift();
-        pairs.pop();
-
-        conflicts[pairId] = pairs;
-      });
-
-      Object.keys(conflicts)
-        .forEach((conflictPair) => {
-          const conflictsList = conflicts[conflictPair];
-
-          conflictsList.forEach((conflict) => {
-            const pairIds = conflictPair.split(':');
-
-            if (typeof intersected[conflictPair] !== 'object') {
-              intersected[conflictPair] = {};
-              intersected[conflictPair][pairIds[0]] = [];
-              intersected[conflictPair][pairIds[1]] = [];
-            }
-
-            intersected[conflictPair][Number.parseInt(pairIds[0])] = changes[pairIds[0]].filter(c => c === conflict);
-
-            if (pairIds[1] != Object.keys(changes).length) {
-              intersected[conflictPair][Number.parseInt(pairIds[1])] = changes[pairIds[1]].filter(c => c === conflict);
-            }
-          });
+    this.initialized = new Promise((resolve) => {
+      this.initialize()
+        .then(() => {
+          resolve(true);
+        })
+        .catch((err) => {
+          resolve(false);
+          console.error(err);
         });
-
-      shaList.forEach((pull, i) => {
-        if (i === shaList.length - 1) {
-          return;
-        }
-
-        const pullConflicts = Object.keys(intersected)
-          .filter(c => (c[0] == i || c[2] == i));
-
-        if (!pullConflicts.length) {
-          mergeOrder.push({
-            title: titlesList[i],
-            sha: shaList[i],
-            conflictLevel: 0,
-            concurrency: [],
-          });
-
-          return;
-        }
-
-        const conflictedPullsList = [...new Set(pullConflicts.join(':').split(':'))];
-
-        // Pre-population of second order
-        conflictedPullsList.forEach((i) => {
-          const pullIndex = mergeOrder.findIndex(c => c.sha === shaList[i]);
-
-          if (pullIndex !== -1 || Number.parseInt(i) >= shaList.length - 1) {
-            return;
-          }
-
-          mergeOrder.push({
-            title: titlesList[i],
-            sha: shaList[i],
-            conflictLevel: 0,
-            concurrency: [],
-          });
-        });
-
-        pullConflicts.forEach((pair) => {
-          let concurrent = pair.split(':');
-
-          const pull1Index = mergeOrder.findIndex(c => c.sha === shaList[concurrent[0]]);
-          const pull2Index = mergeOrder.findIndex(c => c.sha === shaList[concurrent[1]]);
-
-          const isPull1Affected = (intersected[pair][concurrent[0]].length > 0);
-          const isPull2Affected = (intersected[pair][concurrent[1]].length > 0);
-
-          if (isPull1Affected || pull2Index === -1) {
-            const alreadyListed = (mergeOrder[pull1Index].concurrency.findIndex(c => (
-              c.sha === shaList[concurrent[1]]
-            )) !== -1);
-
-            if (!alreadyListed) {
-              mergeOrder[pull1Index].conflictLevel++;
-
-              mergeOrder[pull1Index].concurrency.push({
-                title: titlesList[concurrent[1]],
-                sha: shaList[concurrent[1]],
-              });
-            }
-          }
-
-          if (isPull2Affected) {
-            const alreadyListed = (mergeOrder[pull2Index].concurrency.findIndex(c => (
-              c.sha === shaList[concurrent[0]]
-            )) !== -1);
-
-            if (!alreadyListed) {
-              mergeOrder[pull2Index].conflictLevel++;
-
-              mergeOrder[pull2Index].concurrency.push({
-                title: titlesList[concurrent[0]],
-                sha: shaList[concurrent[0]],
-              });
-            }
-          }
-        });
-      });
-
-      const sortByConflictLevel = ((b, a) => (a.conflictLevel > b.conflictLevel) ? -1 : 1);
-
-      const pullStats = mergeOrder.sort(sortByConflictLevel)
-        .map((m) => {
-          let comments = '';
-
-          if (m.conflictLevel === 0) {
-            comments = 'No conflicts, can be merged';
-          } else if (m.concurrency.some(c => c.title === 'master')) {
-            comments = 'Rebase on master or do merge commit';
-          } else {
-            comments = 'Resolve conflicts between branches';
-          }
-
-          if (m.conflictLevel === 0) {
-            delete m.conflictLevel;
-            delete m.concurrency;
-          }
-
-          m.comments = comments;
-          m.pullNumber = pullsData.find(p => p.sha === m.sha).pullNumber;
-
-          return m;
-        });
-
-      resolve(pullStats);
-
-      if (args.graph) {
-        await visualizer(pullStats, mainBranchSha);
-
-        if (args.isActions) {
-          const artifactClient = artifact_client.create();
-
-          external_fs_.writeFileSync('stats.json', JSON.stringify(pullStats, null, 4));
-
-          await artifactClient.uploadArtifact('statistics', ['stats.json', 'graph.svg'], appDir);
-        }
-      }
     });
-  });
+  }
+
+  async initialize() {
+    this.pullsData = await fetchPulls(this.args.repo, this.args.marker);
+
+    this.shaList = this.pullsData.map(p => p.sha);
+    this.titlesList = this.pullsData.map(p => p.title);
+
+    if (!this.pullsData.length) {
+      throw Error('NO PULLS TO MERGE');
+    }
+  }
+
+  async runAnalyze() {
+    const isInitialized = await this.initialized;
+
+    if (!isInitialized) {
+      console.error('Conflictor was not able to initialize');
+      return;
+    }
+
+    const execCommand = this.getExecCommand();
+
+    return new Promise((resolve) => {
+      (0,external_child_process_namespaceObject.exec)(execCommand, (err, sout, serr) => (
+        this.processExecOutput(err, sout, serr)
+          .then(async (result) => {
+            await this.runOutput(result);
+            resolve(result.pullStats);
+          })
+          .catch((err) => {
+            resolve(err);
+            console.error(err);
+          })
+      ));
+    });
+  }
+
+  async processExecOutput(error, stdout, stderr) {
+    if (error || stderr) {
+      throw error || stderr;
+    }
+
+    if (this.args.debug) {
+      console.log('BASH Debug information:', error, stdout, stderr);
+    }
+
+    const errorReceived = stdout.match(Conflictor.RegExp.Error)?.[1];
+
+    if (errorReceived) {
+      throw Error(errorReceived);
+    }
+
+    const mainBranchSha = stdout.match(Conflictor.RegExp.MasterSha)[1];
+
+    this.shaList.push(mainBranchSha);
+    this.titlesList.push(this.args.mainBranch);
+
+    const changes = [];
+    const conflicts = [];
+    const intersected = [];
+    const mergeOrder = [];
+
+    stdout.match(Conflictor.RegExp.DirectImpact).forEach((pull) => {
+      const pulls = pull.split('\n');
+
+      const pullId = pulls[0].match(/\d+/g);
+
+      pulls.shift();
+      pulls.pop();
+
+      changes[Number.parseInt(pullId)] = [...new Set(pulls)];
+    });
+
+    stdout.match(Conflictor.RegExp.SideImpact).forEach((pair) => {
+      const pairs = pair.split('\n');
+
+      const pairId = pairs[0].match(/\d+:\d+/g);
+
+      pairs.shift();
+      pairs.pop();
+
+      conflicts[pairId] = pairs;
+    });
+
+    Object.keys(conflicts).forEach((conflictPair) => {
+      const conflictsList = conflicts[conflictPair];
+
+      conflictsList.forEach((conflict) => {
+        const pairIds = conflictPair.split(':');
+
+        if (typeof intersected[conflictPair] !== 'object') {
+          intersected[conflictPair] = {};
+          intersected[conflictPair][pairIds[0]] = [];
+          intersected[conflictPair][pairIds[1]] = [];
+        }
+
+        intersected[conflictPair][Number.parseInt(pairIds[0])] = changes[pairIds[0]].filter(c => c === conflict);
+
+        if (pairIds[1] != Object.keys(changes).length) {
+          intersected[conflictPair][Number.parseInt(pairIds[1])] = changes[pairIds[1]].filter(c => c === conflict);
+        }
+      });
+    });
+
+    this.shaList.forEach((pull, i) => {
+      if (i === this.shaList.length - 1) {
+        return;
+      }
+
+      const pullConflicts = Object.keys(intersected)
+        .filter(c => (c[0] == i || c[2] == i));
+
+      if (!pullConflicts.length) {
+        mergeOrder.push({
+          title: this.titlesList[i],
+          sha: this.shaList[i],
+          conflictLevel: 0,
+          concurrency: [],
+        });
+
+        return;
+      }
+
+      const conflictedPullsList = [...new Set(pullConflicts.join(':').split(':'))];
+
+      // Pre-population of second order
+      conflictedPullsList.forEach((i) => {
+        const pullIndex = mergeOrder.findIndex(c => c.sha === this.shaList[i]);
+
+        if (pullIndex !== -1 || Number.parseInt(i) >= this.shaList.length - 1) {
+          return;
+        }
+
+        mergeOrder.push({
+          title: this.titlesList[i],
+          sha: this.shaList[i],
+          conflictLevel: 0,
+          concurrency: [],
+        });
+      });
+
+      pullConflicts.forEach((pair) => {
+        let concurrent = pair.split(':');
+
+        const pull1Index = mergeOrder.findIndex(c => c.sha === this.shaList[concurrent[0]]);
+        const pull2Index = mergeOrder.findIndex(c => c.sha === this.shaList[concurrent[1]]);
+
+        const isPull1Affected = (intersected[pair][concurrent[0]].length > 0);
+        const isPull2Affected = (intersected[pair][concurrent[1]].length > 0);
+
+        if (isPull1Affected || pull2Index === -1) {
+          const alreadyListed = (mergeOrder[pull1Index].concurrency.findIndex(c => (
+            c.sha === this.shaList[concurrent[1]]
+          )) !== -1);
+
+          if (!alreadyListed) {
+            mergeOrder[pull1Index].conflictLevel++;
+
+            mergeOrder[pull1Index].concurrency.push({
+              title: this.titlesList[concurrent[1]],
+              sha: this.shaList[concurrent[1]],
+            });
+          }
+        }
+
+        if (isPull2Affected) {
+          const alreadyListed = (mergeOrder[pull2Index].concurrency.findIndex(c => (
+            c.sha === this.shaList[concurrent[0]]
+          )) !== -1);
+
+          if (!alreadyListed) {
+            mergeOrder[pull2Index].conflictLevel++;
+
+            mergeOrder[pull2Index].concurrency.push({
+              title: this.titlesList[concurrent[0]],
+              sha: this.shaList[concurrent[0]],
+            });
+          }
+        }
+      });
+    });
+
+    const sortByConflictLevel = ((b, a) => (a.conflictLevel > b.conflictLevel) ? -1 : 1);
+
+    const pullStats = mergeOrder.sort(sortByConflictLevel).map((m) => {
+      let comments = 'Resolve conflicts between branches';
+
+      if (m.conflictLevel === 0) {
+        comments = 'No conflicts, can be merged';
+      } else if (m.concurrency.some(c => c.title === 'master')) {
+        comments = 'Rebase on master or do merge commit';
+      }
+
+      if (m.conflictLevel === 0) {
+        delete m.conflictLevel;
+        delete m.concurrency;
+      }
+
+      m.comments = comments;
+      m.pullNumber = this.pullsData.find(p => p.sha === m.sha).pullNumber;
+
+      return m;
+    });
+
+    return { mainBranchSha, pullStats };
+  }
+
+  async runOutput(result) {
+    const artifacts = [];
+
+    const artifactClient = artifact_client.create();
+
+    if (this.args.graph) {
+      await visualizer(result.pullStats, result.mainBranchSha);
+
+      if (this.args.isActions) {
+        artifacts.push('graph.svg');
+      }
+    }
+
+    if (this.args.json) {
+      external_fs_.writeFileSync('stats.json', JSON.stringify(result.pullStats, null, 4));
+
+      if (this.args.isActions) {
+        artifacts.push('stats.json');
+      }
+    }
+
+    if (this.args.isActions) {
+      await artifactClient.uploadArtifact('statistics', artifacts, appDir);
+    }
+  }
+
+  static async analyze(args) {
+    const conflictor = new Conflictor(args);
+    return await conflictor.runAnalyze();
+  }
+
+  getExecCommand() {
+    let preCommands = [];
+
+    if (this.args.base) {
+      const setConflictorMainSha = `export CONFLICTOR_MASTER_SHA=${this.args.base}`;
+      preCommands.push(setConflictorMainSha);
+    }
+
+    if (this.args.mainBranch) {
+      const setConflictorMainBranch = `export CONFLICTOR_MAIN_BRANCH=${this.args.mainBranch}`
+      preCommands.push(setConflictorMainBranch);
+    }
+
+    const goToProjectFolder = `cd ${this.args.project}`;
+    preCommands.push(goToProjectFolder);
+
+    preCommands.push(`${Conflictor.CrossMergerPath} ${this.shaList.join(' ')}`);
+
+    return preCommands.join(' && ');
+  }
 }
 
 
@@ -20557,6 +20626,6 @@ async function conflictor(args) {
 /******/ // startup
 /******/ // Load entry module and return exports
 /******/ // This entry module used 'module' so it can't be inlined
-/******/ var __webpack_exports__ = __nccwpck_require__(6997);
+/******/ var __webpack_exports__ = __nccwpck_require__(7313);
 /******/ __webpack_exports__ = await __webpack_exports__;
 /******/ 

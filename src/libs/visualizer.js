@@ -1,5 +1,5 @@
-import {graphviz} from "node-graphviz";
-import fs from "fs";
+import fs from 'fs';
+import { graphviz } from 'node-graphviz';
 
 export default function(pullsData, mainBranchSha) {
   const nodes = pullsData.map((pull) => {

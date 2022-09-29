@@ -21,6 +21,10 @@ inputs:
     description: 'Conflictor will try generate a graph. Still in development'
     default: 'false'
     required: false
+  create-json:
+    description: 'Conflictor will output result JSON into a file'
+    default: 'false'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

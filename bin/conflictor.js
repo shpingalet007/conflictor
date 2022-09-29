@@ -1,9 +1,9 @@
-import args from '../args.js';
-import conflictor from '../index.js';
+import args from '../src/libs/args.js';
+import Conflictor from '../src/index.js';
 
-const result = await conflictor(args);
+const result = await Conflictor.analyze(args);
 
-if (result.constructor.name === 'Error') {
+if (result?.constructor.name === 'Error') {
   console.log(result.message);
   process.exit();
 }

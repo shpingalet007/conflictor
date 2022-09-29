@@ -11,9 +11,10 @@ if (isActions) {
   const marker = core.getInput('deploy-label');
   const mainBranch = core.getInput('main-branch');
   const graph = (core.getInput('create-graph') === 'true');
+  const json = (core.getInput('create-json') === 'true');
   const project = '.';
 
-  argv = { isActions, repo, marker, mainBranch, project, graph };
+  argv = { isActions, repo, marker, mainBranch, project, graph, json };
 } else {
   argv = yargs(process.argv)
     .option('project', {
@@ -49,6 +50,11 @@ if (isActions) {
       description: 'Provide manually which pull requests must be checked',
       describe: '[merge_commit_1, merge_commit_2, ..., merge_commit_N]',
       type: 'string',
+    })
+    .option('json', {
+      alias: 'j',
+      description: 'Output analyze results as JSON file',
+      type: 'boolean'
     })
     .option('graph', {
       alias: 'g',
