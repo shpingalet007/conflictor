@@ -1,11 +1,9 @@
 {
   "name": "conflictor",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Utility that analyzes pull requests and conflicts between them",
-  "main": "main.js",
-  "bin": {
-    "conflictor": "./bin/conflictor.js"
-  },
+  "main": "./src/main.js",
+  "bin": "./bin/conflictor.js",
   "type": "module",
   "scripts": {
     "build:action": "ncc build src/action.js -o dist"
@@ -19,6 +17,7 @@
     "yargs": "^17.5.1"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.12"
+    "@types/yargs": "^17.0.12",
+    "@vercel/ncc": "^0.36.0"
   }
 }

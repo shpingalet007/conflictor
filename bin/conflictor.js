@@ -1,5 +1,7 @@
+#!/usr/bin/env node
+
 import args from '../src/libs/args.js';
-import Conflictor from '../src/index.js';
+import Conflictor from '../src/main.js';
 
 const result = await Conflictor.analyze(args);
 
