@@ -65,6 +65,73 @@ async function fetchPullMergeCommit(pull) {
 }
 
 export async function fetchPulls(repo, label) {
+  return [
+    {
+      "title": "fix: video back button area",
+      "sha": "9558ecc936d6ac1be40e3a3827729118aab06a2e",
+      "comments": "No conflicts, can be merged",
+      "pullNumber": 1029
+    },
+    {
+      "title": "Jury moderation",
+      "sha": "f669a7097efde49d9f4d0e2b14c4388da6d442fa",
+      "comments": "No conflicts, can be merged",
+      "pullNumber": 1027
+    },
+    {
+      "title": "fix: livestream player, chat encryption",
+      "sha": "b15bfaf97a588d2d4ad0d06980c23622705bae30",
+      "conflictLevel": 1,
+      "concurrency": [
+        {
+          "title": "feat: mobile app update ui",
+          "sha": "22e87306ec80fe29892f2a09cbdffb998b06ac05"
+        }
+      ],
+      "comments": "Resolve conflicts between branches",
+      "pullNumber": 1032
+    },
+    {
+      "title": "feat: mobile app update ui",
+      "sha": "22e87306ec80fe29892f2a09cbdffb998b06ac05",
+      "conflictLevel": 1,
+      "concurrency": [
+        {
+          "title": "fix: livestream player, chat encryption",
+          "sha": "b15bfaf97a588d2d4ad0d06980c23622705bae30"
+        }
+      ],
+      "comments": "Resolve conflicts between branches",
+      "pullNumber": 1030
+    },
+    {
+      "title": "fix: loc left-footer; howtobuy & leftpanel styles",
+      "sha": "2ace254fcf62be63f1a75b70b48ffe6acb826442",
+      "conflictLevel": 1,
+      "concurrency": [
+        {
+          "title": "feat: clear local storage",
+          "sha": "ebeb802c837082391860c254aa2606687e49ac07"
+        }
+      ],
+      "comments": "Resolve conflicts between branches",
+      "pullNumber": 1031
+    },
+    {
+      "title": "feat: clear local storage",
+      "sha": "ebeb802c837082391860c254aa2606687e49ac07",
+      "conflictLevel": 1,
+      "concurrency": [
+        {
+          "title": "fix: loc left-footer; howtobuy & leftpanel styles",
+          "sha": "2ace254fcf62be63f1a75b70b48ffe6acb826442"
+        }
+      ],
+      "comments": "Resolve conflicts between branches",
+      "pullNumber": 1028
+    }
+  ];
+
   const labeledPulls = await fetchPullsByLabel(repo, label);
 
   const mergeCommits = [];
