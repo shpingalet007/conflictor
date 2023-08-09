@@ -2,6 +2,9 @@
 
 # declare -A pull_conflicts
 
+echo "WORKING DIRECTORY IS"
+pwd
+
 pulls=("$@")
 
 git fetch --all > /dev/null 2>&1
