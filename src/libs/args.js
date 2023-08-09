@@ -12,9 +12,10 @@ if (isActions) {
   const mainBranch = core.getInput('main-branch');
   const graph = (core.getInput('create-graph') === 'true');
   const json = (core.getInput('create-json') === 'true');
+  const debug = (core.getInput('debug') === 'true');
   const project = '.';
 
-  argv = { isActions, repo, marker, mainBranch, project, graph, json };
+  argv = { isActions, repo, marker, mainBranch, project, graph, json, debug };
 } else {
   argv = yargs(process.argv)
     .option('project', {

@@ -25,6 +25,10 @@ inputs:
     description: 'Conflictor will output result JSON into a file'
     default: 'false'
     required: false
+  debug:
+    description: 'Action would output some debug information'
+    default: 'false'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
