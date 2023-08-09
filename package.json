@@ -6,7 +6,7 @@
   "bin": "./bin/conflictor.js",
   "type": "module",
   "scripts": {
-    "build:action": "ncc build src/action.js -o dist"
+    "build:action": "ncc build src/action.js -o dist -m"
   },
   "author": "",
   "license": "ISC",
