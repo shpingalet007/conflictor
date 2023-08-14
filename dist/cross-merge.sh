@@ -7,6 +7,7 @@ pwd
 
 pulls=("$@")
 
+git config --global advice.detachedHead false
 git config --global user.email "dummy@dummy.com"
 git config --global user.name "Dummy User"
 
