@@ -7,7 +7,7 @@ pwd
 
 pulls=("$@")
 
-git fetch --all > /dev/null 2>&1
+git fetch --all
 
 if [ -z "$CONFLICTOR_MASTER_SHA" ]; then
   masterSha="$(git rev-parse origin/$CONFLICTOR_MAIN_BRANCH)"
@@ -29,7 +29,7 @@ for i in "${!pulls[@]}"; do
     break
   fi
 
-  git checkout ${pulls[$i]} > /dev/null 2>&1
+  git checkout ${pulls[$i]}
 
   # echo "------------------------------------"
   # echo "ANALYZING PULL REQUEST $i"
@@ -53,15 +53,15 @@ for i in "${!pulls[@]}"; do
     # echo "------------------------------------"
     # echo "CONFLICTS GROUP [$i:$j]"
 
-    git merge --no-commit ${pulls[$i]} ${pulls[$j]} > /dev/null 2>&1
+    git merge --no-commit ${pulls[$i]} ${pulls[$j]}
 
     echo ">>> SIDE IMPACT INSPECTION [$i:$j] - START"
     git --no-pager diff --name-status --diff-filter=U | cut -c3-
     echo ">>> END"
 
-    git reset --hard HEAD~1 > /dev/null 2>&1
-    git clean -xxdf > /dev/null 2>&1
+    git reset --hard HEAD~1
+    git clean -xxdf
 
-    git checkout origin/$CONFLICTOR_MAIN_BRANCH > /dev/null 2>&1
+    git checkout origin/$CONFLICTOR_MAIN_BRANCH
   done
 done
