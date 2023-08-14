@@ -7,6 +7,9 @@ pwd
 
 pulls=("$@")
 
+git config --global user.email "dummy@dummy.com"
+git config --global user.name "Dummy User"
+
 git fetch --all
 
 if [ -z "$CONFLICTOR_MASTER_SHA" ]; then
