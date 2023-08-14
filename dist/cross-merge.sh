@@ -4,6 +4,9 @@
 
 pulls=("$@")
 
+git config --global user.email "dummy@dummy.com"
+git config --global user.name "Dummy User"
+
 git fetch --all > /dev/null 2>&1
 
 if [ -z "$CONFLICTOR_MASTER_SHA" ]; then
