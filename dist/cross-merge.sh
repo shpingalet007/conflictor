@@ -11,7 +11,7 @@ git config --global advice.detachedHead false
 git config --global user.email "dummy@dummy.com"
 git config --global user.name "Dummy User"
 
-git fetch --all
+git fetch --all > /dev/null 2>&1
 
 if [ -z "$CONFLICTOR_MASTER_SHA" ]; then
   masterSha="$(git rev-parse origin/$CONFLICTOR_MAIN_BRANCH)"
@@ -33,7 +33,7 @@ for i in "${!pulls[@]}"; do
     break
   fi
 
-  git checkout ${pulls[$i]}
+  git checkout ${pulls[$i]} > /dev/null 2>&1
 
   # echo "------------------------------------"
   # echo "ANALYZING PULL REQUEST $i"
@@ -57,15 +57,15 @@ for i in "${!pulls[@]}"; do
     # echo "------------------------------------"
     # echo "CONFLICTS GROUP [$i:$j]"
 
-    git merge --no-commit ${pulls[$i]} ${pulls[$j]}
+    git merge --no-commit ${pulls[$i]} ${pulls[$j]} > /dev/null 2>&1
 
     echo ">>> SIDE IMPACT INSPECTION [$i:$j] - START"
     git --no-pager diff --name-status --diff-filter=U | cut -c3-
     echo ">>> END"
 
-    git reset --hard HEAD~1
-    git clean -xxdf
+    git reset --hard HEAD~1 > /dev/null 2>&1
+    git clean -xxdf > /dev/null 2>&1
 
-    git checkout origin/$CONFLICTOR_MAIN_BRANCH
+    git checkout origin/$CONFLICTOR_MAIN_BRANCH > /dev/null 2>&1
   done
 done
