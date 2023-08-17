@@ -294,6 +294,8 @@ export default class Conflictor {
 
     preCommands.push(`${Conflictor.CrossMergerPath} ${this.shaList.join(' ')}`);
 
+    console.log('COMMANDS', preCommands);
+
     return preCommands.join(' && ');
   }
 }
