@@ -36,6 +36,7 @@ export default class Conflictor {
 
     console.log(this.pullsData);
 
+    this.numList = this.pullsData.map(p => p.number);
     this.shaList = this.pullsData.map(p => p.sha);
     this.titlesList = this.pullsData.map(p => p.title);
 
@@ -272,6 +273,11 @@ export default class Conflictor {
 
   getExecCommand() {
     let preCommands = [];
+
+    this.numList.forEach((prNum) => {
+      const prFetch = `git fetch upstream pull/${prNum}/head:conflictor/fetch-${prNum}`;
+      preCommands.push(prFetch);
+    });
 
     if (this.args.base) {
       const setConflictorMainSha = `export CONFLICTOR_MASTER_SHA=${this.args.base}`;
