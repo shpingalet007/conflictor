@@ -70,6 +70,8 @@ export async function fetchPulls(repo, label) {
   const mergeCommits = [];
 
   for (let i = 0; i < labeledPulls.length; i++) {
+    console.log(labeledPulls);
+
     mergeCommits.push({
       pullNumber: labeledPulls[i].number,
       title: labeledPulls[i].title,
