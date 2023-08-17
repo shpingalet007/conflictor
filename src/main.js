@@ -275,7 +275,7 @@ export default class Conflictor {
     let preCommands = [];
 
     this.numList.forEach((prNum) => {
-      const prFetch = `git fetch origin pull/${prNum}/head:conflictor/fetch-${prNum}`;
+      const prFetch = `git fetch origin pull/${prNum}/head:conflictor/fetch-${prNum} > /dev/null 2>&1`;
       preCommands.push(prFetch);
     });
 
