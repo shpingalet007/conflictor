@@ -36,7 +36,7 @@ export default class Conflictor {
 
     console.log(this.pullsData);
 
-    this.numList = this.pullsData.map(p => p.number);
+    this.numList = this.pullsData.map(p => p.pullNumber);
     this.shaList = this.pullsData.map(p => p.sha);
     this.titlesList = this.pullsData.map(p => p.title);
 
