@@ -34,6 +34,8 @@ export default class Conflictor {
   async initialize() {
     this.pullsData = await fetchPulls(this.args.repo, this.args.marker);
 
+    console.log(this.pullsData);
+
     this.shaList = this.pullsData.map(p => p.sha);
     this.titlesList = this.pullsData.map(p => p.title);
 
