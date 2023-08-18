@@ -34,6 +34,7 @@ export default class Conflictor {
   async initialize() {
     this.pullsData = await fetchPulls(this.args.repo, this.args.marker);
 
+    this.numList = this.pullsData.map(p => p.pullNumber);
     this.shaList = this.pullsData.map(p => p.sha);
     this.titlesList = this.pullsData.map(p => p.title);
 
@@ -270,6 +271,11 @@ export default class Conflictor {
 
   getExecCommand() {
     let preCommands = [];
+
+    this.numList.forEach((prNum) => {
+      const prFetch = `git fetch origin pull/${prNum}/head:conflictor/fetch-${prNum} > /dev/null 2>&1`;
+      preCommands.push(prFetch);
+    });
 
     if (this.args.base) {
       const setConflictorMainSha = `export CONFLICTOR_MASTER_SHA=${this.args.base}`;
