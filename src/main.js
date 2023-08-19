@@ -32,7 +32,74 @@ export default class Conflictor {
   }
 
   async initialize() {
-    this.pullsData = await fetchPulls(this.args.repo, this.args.marker);
+    this.pullsData = [
+      {
+          "title": "patch: calls ui update",
+          "sha": "1eb11e9b7f7605faa9f70d26fb47bd26626d0753",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 924
+      },
+      {
+          "title": "patch: hide upload buttons when posting an audio file",
+          "sha": "d8e12e0d70d6471dda7498ab7e0354e6c487f32f",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 922
+      },
+      {
+          "title": "Fixed server selection for image upload",
+          "sha": "7023df4ce9d5d7e55a5ab884dabb01c6dafba09c",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 921
+      },
+      {
+          "title": "delete_comment",
+          "sha": "437ac8e17ee398b301497956dfbab4acf183b26a",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 920
+      },
+      {
+          "title": "patch: rebuild chat",
+          "sha": "1606d3bb2f9e1168c014d92087fb9b462133d41e",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 919
+      },
+      {
+          "title": "patch: enable audio",
+          "sha": "1caaecc77f952a4541ae03b18d0cd6e50da173b9",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 912
+      },
+      {
+          "title": "Boost page upd",
+          "sha": "9b387ce8fbfebbd872c114d2f6796f91d9213225",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 909
+      },
+      {
+          "title": "email optional text",
+          "sha": "88d998cc4c68e892656af0fe5b4f7338b5f008e0",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 908
+      },
+      {
+          "title": "unableToAuthorizeBody new text",
+          "sha": "361df28a679eee88285ff19ad1772462e036e7d7",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 903
+      },
+      {
+          "title": "Dummy changes",
+          "sha": "e8fb909f9fff20dcad257a0f4a5900f5aee937d5",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 884
+      },
+      {
+          "title": "refactor: application network transport system",
+          "sha": "b10efa2d214af4a4d09e4f0c31073904f225f8ca",
+          "comments": "No conflicts, can be merged",
+          "pullNumber": 873
+      }
+    ];
 
     this.numList = this.pullsData.map(p => p.pullNumber);
     this.shaList = this.pullsData.map(p => p.sha);
