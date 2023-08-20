@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@actions/artifact": "^1.1.0",
-    "@actions/core": "^1.9.1",
+    "@actions/core": "^1.10.0",
     "node-graphviz": "^0.1.0",
     "yargs": "^17.5.1"
   },
